@@ -38,6 +38,19 @@ decisions. Nothing here grants permission to message others or publish a game.
 
 ## Regeneration and validation
 
+Native `$skill-test` audits `.agents/skills` and `.codex/agents` using
+`python tools/audit_codex.py`; upstream Claude linters do not validate Codex
+schemas. `$skill-improve` edits maintained source or a Codex-specific override
+under `tools/codex_workflows`, then regenerates and retests. Generated workflow
+files must not be edited alone. Existing explicit-only source policies map to
+`agents/openai.yaml` with `allow_implicit_invocation: false`; other skills retain
+implicit selection. Neither setting grants shell or deployment permissions.
+
+Review receipts must check native entrypoints, workflows and supporting inputs,
+not only upstream definitions. See the
+[remaining-workflows report](validation/remaining-workflows-2026-11-07.md) for
+the complete inventory, helper replays and known execution limitations.
+
 Install `tools/requirements.txt`, run `python tools/build_codex.py`, then
 `python -m unittest discover -s tests -v`. The adapter is generated from the
 preserved upstream definitions. It strips Claude-only frontmatter, expands

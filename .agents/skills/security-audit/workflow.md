@@ -92,7 +92,7 @@ Add nothing else: no view on the game's type, no expected severity, no opinion
 on any finding - a sentence of your own is where a pre-rating gets in.
 
 ```text
-Run a security audit of this project for $security-audit.
+Run a security audit of this project for /security-audit.
 
 Scope: {full | network | save | input | quick}
 Engine: {engine.name} {engine.version}, language {engine.language}

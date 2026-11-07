@@ -29,7 +29,7 @@ Every `AskUserQuestion` call follows `.claude/docs/automation-modes.md`
 
 **Argument modes:**
 
-**Focus:** `$ARGUMENTS` (blank = `full`)
+**Focus:** `the invocation arguments` (blank = `full`)
 
 - **No argument / `full`**: Both consistency and design theory passes
 - **`consistency`**: Cross-GDD consistency checks only (faster)

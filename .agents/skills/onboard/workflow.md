@@ -44,9 +44,9 @@ the two happened - a reader cannot tell from a green result.
 
 Read AGENTS.md for project overview and standards.
 
-Read the relevant agent definition from `.claude/agents/` if a specific role is specified.
+Read the relevant agent definition from `.codex/agents/` if a specific role is specified.
 
-`AGENTS.md` and `.claude/agents/` ship with the framework - no skill creates them. If either is missing, report it as missing from the install.
+`AGENTS.md` and `.codex/agents/` ship with the framework - no skill creates them. If either is missing, report it as missing from the install.
 
 ---
 

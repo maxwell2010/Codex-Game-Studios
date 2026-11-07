@@ -74,13 +74,13 @@ Do NOT use a simple scoring matrix that eliminates engines. Instead, reason thro
 **Unity**
 - Genuine strengths: Industry standard for mid-scope 3D and mobile; massive asset store and tutorial ecosystem; C# is a professional language; best console certification support for indie; strong community for almost every genre
 - Real limitations: Licensing controversy in 2023 damaged trust (runtime fee was proposed then walked back - the risk of policy changes remains real); C# has a steeper initial curve than GDScript; heavier editor than Godot for simple projects
-- Licensing reality: Free under $200K revenue AND 200K installs (Unity Personal/Plus). Only becomes costly if the game is genuinely successful - most indie games never hit this threshold. The 2023 controversy is worth knowing about but the actual current terms are reasonable for most indie developers.
+- Licensing reality: Verify current eligibility and fees on https://unity.com/products/unity-personal and https://unity.com/products/pricing-updates before advising; do not apply an install-count threshold or a discontinued plan.
 - Best fit: Mobile games; mid-scope 3D; games targeting console; developers with C# background; projects needing large asset store; teams of 2-5
 
 **Unreal Engine 5**
 - Genuine strengths: Best-in-class 3D visuals (Lumen, Nanite, Chaos physics); industry standard for AAA and photorealistic 3D; large open-world support is mature and production-tested; Blueprint visual scripting lowers C++ barrier; strong for games targeting high-end PC or console
-- Real limitations: Steepest learning curve; heaviest editor (slow compile times, large project sizes); overkill for stylized/2D/small-scope games; C++ is genuinely hard; not suitable for mobile or web; 5% royalty past $1M gross revenue
-- Licensing reality: 5% royalty only applies AFTER $1M gross revenue per title. For a first game or any game that doesn't reach $1M, it costs nothing. This threshold is high enough that most indie developers will never pay it.
+- Real limitations: Steepest learning curve; heaviest editor (slow compile times, large project sizes); overkill for stylized/2D/small-scope games; C++ is genuinely hard; mobile support needs project-specific performance validation; browser export needs a separately verified solution
+- Licensing reality: Verify the current terms, exclusions and applicable license at https://www.unrealengine.com/en-US/license before advising; do not treat an old summary as legal guidance.
 - Best fit: AAA-quality 3D; large open-world games; photorealistic visuals; developers with C++ experience or willing to use Blueprint; games targeting high-end PC/console where visual fidelity is a core selling point
 
 **Genre-specific guidance** (factor this into the recommendation):

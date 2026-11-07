@@ -170,6 +170,13 @@ how tests will be allocated.
 
 ## Phase 4: Generate Test Plan
 
+Resolve test paths for the configured engine before drafting the plan: Godot
+unit/integration roots are `tests/unit/` and `tests/integration/`; Unity roots
+are `Assets/Tests/EditMode/` and `Assets/Tests/PlayMode/`; Unreal tests live under
+the discovered `Source/<Module>/Private/Tests/` roots. Do not suggest Godot paths
+for Unity or Unreal. If the engine/module is unresolved, write NOT ASSESSED for
+test paths and ask for the missing configuration rather than inventing a path.
+
 Assemble the full QA plan document. Use this structure:
 
 ````markdown
@@ -186,7 +193,7 @@ Assemble the full QA plan document. Use this structure:
 
 | Story | Type | Automated Test Required | Manual Verification Required |
 |-------|------|------------------------|------------------------------|
-| [story title] | Logic | Unit test — `tests/unit/[system]/` | None |
+| [story title] | Logic | Unit test — `[resolved unit-test root]/[system]/` | None |
 | [story title] | Integration | Integration test — `tests/integration/[system]/` | Smoke check |
 | [story title] | Visual/Feel | None (not automatable) | Screenshot + lead sign-off |
 | [story title] | UI | None (verified by its screenshots) | Retained screenshot of each screen touched |

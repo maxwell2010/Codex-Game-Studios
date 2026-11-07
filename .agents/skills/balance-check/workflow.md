@@ -42,7 +42,7 @@ the two happened - a reader cannot tell from a green result.
 
 ## Phase 1: Identify Balance Domain
 
-Determine the balance domain from `$ARGUMENTS` - the whole string, since a data-file path may contain spaces:
+Determine the balance domain from `the invocation arguments` - the whole string, since a data-file path may contain spaces:
 
 - **Combat** → weapon/ability DPS, time-to-kill, damage type interactions
 - **Economy** → resource faucets/sinks, acquisition rates, item pricing

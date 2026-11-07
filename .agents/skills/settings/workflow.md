@@ -50,8 +50,8 @@ helper moves to the project root itself, so those `project.yaml` and
 `project.local.yaml` arguments resolve when the session was started in a
 subfolder, and it keeps the function's exit status. `is_locally_overridable`
 also prints its `0` or `1`. Run the call exactly as shown: do not `source` the
-file, wrap it in `cd ... &&` or append `; echo $?`. This skill pre-approves the
-plain form only, and a compound command asks the user every time.
+file, wrap it in `cd ... &&` or append `; echo $?`. Codex permissions apply to every command; this skill grants no permission.
+Preserve exit status and report any blocked command without changing permissions.
 
 If `.claude/hooks/yaml-helper.sh` is missing, this is not a CCGS project.
 Report the error and exit.

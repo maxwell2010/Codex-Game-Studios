@@ -86,6 +86,13 @@ element of the results file for `testcasecount`, `passed` and `failed`. **`testc
 is NOT ASSESSED, never a pass**: tests outside `Assets/` are never compiled, and
 Unity then reports `result="Passed"` with exit 0 over zero tests.
 
+Failed tests reported in the XML override exit 0: `unity:result-fail` is a FAIL,
+never an all-pass result. The runner's own exit 0 only means it finished observing
+the engine output; inspect its `rule`, `ran`, test counts and timeout rows.
+Multiline opening XML elements must be read as one element. Missing or incomplete
+counts (including an all-skipped run) cannot prove every test passed:
+`unity:incomplete-results` is NOT ASSESSED with the missing coverage stated.
+
 **Play Mode is a second run.** `-testPlatform EditMode` — this default, and
 `commands.test` as `/setup-engine` writes it — never runs the integration tests
 `/test-setup` scaffolds under `Assets/Tests/PlayMode/`. When that folder holds a

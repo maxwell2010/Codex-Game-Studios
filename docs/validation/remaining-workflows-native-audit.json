@@ -1,0 +1,2305 @@
+{
+  "scope": "structure and spec inventory; not behavioral execution",
+  "coverage_errors": [],
+  "definitions": [
+    {
+      "name": "gate-check",
+      "kind": "skill",
+      "category": "gate",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 All Concept artifacts present, advancing to Systems Design",
+        "### Case 2: Failure Path \u2014 Missing required artifacts for Concept \u2192 Systems Design",
+        "### Case 3: No Argument \u2014 Auto-detect current stage",
+        "### Case 4: Edge Case \u2014 Manual check items: \"I don't know\" is not \"not yet\"",
+        "### Case 5: Director Gate \u2014 panel existence (`review_mode`) vs panel width (`workflow`)",
+        "### Case 6: Director context \u2014 a later phase's artifact is \"not expected\", never \"none\"",
+        "### Case 7: CONCERNS override \u2014 the user accepts the risks; a FAIL is never overridden",
+        "### Case 8: `/gate-check production` at `workflow: minimal` \u2014 the slice items drop",
+        "### Case 9: A gate its tier file marks \"not applicable\"",
+        "### Case 10: Minimal-tier closing route \u2014 a built game with no brief is sent to `/reverse-document`"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "adr-dep-graph",
+        "artifact-check",
+        "gdd-structure-check",
+        "set-stage"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 15
+    },
+    {
+      "name": "design-review",
+      "kind": "skill",
+      "category": "review",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Complete GDD, all 8 sections present",
+        "### Case 2: Failure Path \u2014 Incomplete GDD (4/8 sections at `full`)",
+        "### Case 3: Partial Path \u2014 `standard` tier, numeric rules with no Formulas section",
+        "### Case 4: Edge Case \u2014 File not found",
+        "### Case 5: Review mode \u2014 specialist delegation in `full`, none in `lean` / `solo`",
+        "### Case 6: Review mode from the resolved config \u2014 no flag"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "gdd-structure-check",
+        "review-receipts"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "story-readiness",
+      "kind": "skill",
+      "category": "readiness",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Fully ready story",
+        "### Case 2: Blocked Path \u2014 Referenced ADR is Proposed (not Accepted)",
+        "### Case 3: Needs Work \u2014 Missing Acceptance Criteria (checked at every tier)",
+        "### Case 4: Edge Case \u2014 Stale manifest version",
+        "### Case 5: Director Gate \u2014 QL-STORY-READY behavior across review modes",
+        "### Case 6: UI story at `qa.level: minimal` \u2014 the screenshot plan is never waived",
+        "### Case 7: NOT ASSESSED \u2014 nothing to evaluate, or an ADR nobody can read",
+        "### Case 8: A Deprecated or Superseded ADR blocks, and the fix points at the story's ADR field",
+        "### Case 9: A deprecated or superseded TR-ID needs work, quoted or not"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "adr-status",
+        "story-facts"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 4
+    },
+    {
+      "name": "story-done",
+      "kind": "skill",
+      "category": "readiness",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 All acceptance criteria met, no deviations",
+        "### Case 2: Criteria needing manual or playtest verification",
+        "### Case 3: Blocked Path \u2014 GDD deviation detected",
+        "### Case 4: Edge Case \u2014 No argument, auto-detect current story",
+        "### Case 5: Director Gate \u2014 LP-CODE-REVIEW across review modes",
+        "### Case 6: UI story at `minimal`, no sprint plan \u2014 the screenshot closes it",
+        "### Case 7: NOT ASSESSED \u2014 a criterion nobody could evaluate",
+        "### Case 8: Reference files are read only on the branch that needs them"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "adr-status",
+        "md-section",
+        "review-receipts",
+        "session-state",
+        "story-facts",
+        "story-status"
+      ],
+      "implicit_invocation": false,
+      "files_checked": 6
+    },
+    {
+      "name": "review-all-gdds",
+      "kind": "skill",
+      "category": "review",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Clean GDD set with no conflicts",
+        "### Case 2: Failure Path \u2014 Conflicting rules between two GDDs",
+        "### Case 3: Partial Path \u2014 Cross-reference to a GDD that does not exist",
+        "### Case 4: Edge Case \u2014 Fewer than two system GDDs",
+        "### Case 5: Director Gate \u2014 none spawned, whatever the review mode",
+        "### Case 6: NOT ASSESSED \u2014 fewer than two readable GDDs",
+        "### Case 7: Phase files are read on demand, and again after a compaction",
+        "### Case 8: `since-last-review` \u2014 scope comes from the script, not from reasoning over git",
+        "### Case 9: Focus modes \u2014 one pass runs, and the report says which did not"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "review-scope"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 9
+    },
+    {
+      "name": "architecture-review",
+      "kind": "skill",
+      "category": "review",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 every requirement covered by an Accepted ADR",
+        "### Case 2: Failure Path \u2014 Foundation gap plus a cross-ADR ownership conflict",
+        "### Case 3: Partial Path \u2014 coverage resting on a Proposed ADR",
+        "### Case 4: Edge Case \u2014 missing architecture document; malformed ADRs",
+        "### Case 5: Engine specialist consultation \u2014 configured vs unconfigured engine"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "adr-dep-graph",
+        "registry",
+        "review-receipts"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 11
+    },
+    {
+      "name": "create-epics",
+      "kind": "skill",
+      "category": "pipeline",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Two approved GDDs create two epics",
+        "### Case 2: Failure Path \u2014 No system GDDs found",
+        "### Case 3: Director Gate \u2014 Full mode spawns PR-EPIC before writing",
+        "### Case 4: Edge Case \u2014 Untraced requirements at full workflow",
+        "### Case 5: Director Gate \u2014 PR-EPIC returns CONCERNS",
+        "### Case 6: Edge Case \u2014 An EPIC.md already exists for one system",
+        "### Case 7: Standard tier \u2014 GDDs without `## Summary`, one untraced non-critical requirement"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "adr-status",
+        "gdd-structure-check",
+        "md-section",
+        "write-guard"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 4
+    },
+    {
+      "name": "create-stories",
+      "kind": "skill",
+      "category": "pipeline",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Epic with 3 stories, all ADRs Accepted",
+        "### Case 2: Failure Path \u2014 Named epic does not exist",
+        "### Case 3: Blocked Story \u2014 ADR is Proposed",
+        "### Case 4: Edge Case \u2014 No argument provided",
+        "### Case 5: Director Gate \u2014 Full mode, one story returns GAPS from QL-STORY-READY",
+        "### Case 6: Minimal tier \u2014 epic synthesized from the brief, then a return visit"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "adr-status",
+        "md-section"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 4
+    },
+    {
+      "name": "dev-story",
+      "kind": "skill",
+      "category": "pipeline",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Logic story implemented at full workflow",
+        "### Case 2: Failure Path \u2014 Referenced ADR is Proposed",
+        "### Case 2b: Failure Path \u2014 Proposed ADR at the `full` tier",
+        "### Case 3: ADR changed since the story was written",
+        "### Case 4: Edge Case \u2014 No argument; reads from session state",
+        "### Case 5: Minimal tier, Logic story \u2014 tests waived",
+        "### Case 5b: Minimal tier, UI story \u2014 the screenshot is still required",
+        "### Case 6: Unity \u2014 code under `Assets/`, capture script asked for",
+        "### Case 7: Engine unset \u2014 the code root is unresolved, nothing is written",
+        "### Case 8: Dependency marked Complete through option [C]",
+        "### Case 9: The agent stops early \u2014 INCOMPLETE, and the checkpoint says resume",
+        "### Case 10: `full` tier, a story with no governing ADR (`ADR: N/A`)",
+        "### Case 11: Two TR-IDs share a prefix \u2014 the registry lookup matches the exact id"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "adr-status",
+        "md-section",
+        "review-receipts",
+        "session-state",
+        "story-facts"
+      ],
+      "implicit_invocation": false,
+      "files_checked": 5
+    },
+    {
+      "name": "create-control-manifest",
+      "kind": "skill",
+      "category": "pipeline",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 4 Accepted ADRs create a correct manifest",
+        "### Case 2: Failure Path \u2014 No ADRs found",
+        "### Case 3: Mixed ADR Statuses \u2014 Only Accepted ADRs included",
+        "### Case 4: Edge Case \u2014 Regenerating an existing manifest",
+        "### Case 5: Director Gate \u2014 TD-MANIFEST in full review mode returns REJECT",
+        "### Case 6: Edge Case \u2014 No Accepted ADR, and ADRs with no `## Status`"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "adr-status",
+        "md-section"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "propagate-design-change",
+      "kind": "skill",
+      "category": "pipeline",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 GDD formula change affects one of two referencing ADRs",
+        "### Case 2: Zero matches \u2014 \"no impact\" versus \"cannot trace\"",
+        "### Case 3: Edge Case \u2014 Empty diff on a GDD with history",
+        "### Case 4: Edge Case \u2014 No argument provided",
+        "### Case 5: Director Gate \u2014 TD-CHANGE-IMPACT returns CONCERNS in full mode",
+        "### Case 6: Workflow tiers \u2014 `minimal` stops before the cascade; `standard` narrows it"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "adr-status",
+        "md-section"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "architecture-decision",
+      "kind": "skill",
+      "category": "authoring",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 New rendering ADR, full mode, TD-ADR approves",
+        "### Case 2: Failure Path \u2014 TD-ADR returns CONCERNS",
+        "### Case 3: Lean and Solo Modes \u2014 TD-ADR skipped; checks that cannot run say so",
+        "### Case 4: Edge Case \u2014 Proposed decision contradicts a registered stance",
+        "### Case 5: Acceptance Mode \u2014 Status moves to Accepted only through `accept`",
+        "### Case 5b: Acceptance Mode \u2014 a story that names the ADR only as a successor is left out",
+        "### Case 6: Retrofit \u2014 Missing Status answered `Accepted`"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "registry"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 9
+    },
+    {
+      "name": "map-systems",
+      "kind": "skill",
+      "category": "pipeline",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Concept decomposed and index written in full review mode",
+        "### Case 2: Failure Path \u2014 No game concept found",
+        "### Case 3: Director Gate \u2014 CD-SYSTEMS returns CONCERNS after the write",
+        "### Case 4: Edge Case \u2014 Systems index already exists",
+        "### Case 5: Director Gate \u2014 Lean and solo modes skip all three gates, noted",
+        "### Case 6: Guided mode \u2014 a new index is still asked for; an update is not",
+        "### Case 7: Director Gate \u2014 TD-SYSTEM-BOUNDARY returns REJECT"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "vertical-slice",
+      "kind": "skill",
+      "category": "pipeline",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 slice built, played unaided, PROCEED",
+        "### Case 2: Failure Path \u2014 a built slice with a NO cannot PROCEED",
+        "### Case 3: Mode Variant \u2014 CD-PLAYTEST in full, skipped in lean and solo",
+        "### Case 4: Edge Case \u2014 the slice is built but nobody has played it",
+        "### Case 5: Director Gate \u2014 CD-PLAYTEST returns REJECT, CONCERNS or NOT ASSESSED",
+        "### Case 6: Minimal workflow \u2014 PROCEED routes to stories and the velocity feeds the brief"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "design-system",
+      "kind": "skill",
+      "category": "authoring",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 New combat GDD, full mode, full workflow",
+        "### Case 2: Retrofit Mode \u2014 Fill only the incomplete sections at standard tier",
+        "### Case 3: Director Gate \u2014 CD-GDD-ALIGN returns CONCERNS, REJECT or NOT ASSESSED",
+        "### Case 4: Lean and Solo Modes \u2014 Gate skipped once; specialist spawns follow their own checks",
+        "### Case 5: Missing Input and Declined Skeleton",
+        "### Case 6: Minimal Project, One System Raised by `system_overrides`",
+        "### Case 7: Phase Files Are Read Before Each Phase, and Again After a Compaction",
+        "### Case 8: Populated Registry and Numbered-Heading Dependency GDDs \u2014 Block-form greps find the facts"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "registry"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 7
+    },
+    {
+      "name": "consistency-check",
+      "kind": "skill",
+      "category": "analysis",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Registry and 4 GDDs agree",
+        "### Case 2: Failure Path \u2014 A GDD contradicts a registered constant",
+        "### Case 3: Stale Registry \u2014 The source GDD changed after the registry entry",
+        "### Case 4: Edge Case \u2014 Empty registry, no GDDs",
+        "### Case 4b: Edge Case \u2014 Registry populated, but no GDD in scope",
+        "### Case 4c: Edge Case \u2014 Named entity is not in the registry",
+        "### Case 5: Director Gate \u2014 No gate spawned in full review mode",
+        "### Case 6: Standard Workflow \u2014 Only the required GDD sections are compared",
+        "### Case 6b: Standard Workflow \u2014 A per-system override makes one GDD `full`",
+        "### Case 7: Registry Changed Since Phase 1 \u2014 re-read, then anchor each Edit on the current text"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "registry"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "sprint-plan",
+      "kind": "skill",
+      "category": "sprint",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Ready backlog generates sprint",
+        "### Case 2: Blocked Path \u2014 No stories in the backlog",
+        "### Case 3: Gate returns CONCERNS \u2014 Sprint overloaded, revised before write",
+        "### Case 4: Lean Mode \u2014 PR-SPRINT skipped, QA plan check still runs",
+        "### Case 5: Edge Case \u2014 Previous sprint still has open stories",
+        "### Case 6: Gate returns UNREALISTIC \u2014 Stories deferred before the write",
+        "### Case 7: Gate returns NOT ASSESSED \u2014 No story estimates"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "sprint-status",
+      "kind": "skill",
+      "category": "sprint",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Mixed sprint, At Risk with a blocked Must Have",
+        "### Case 2: All Stories Complete \u2014 On Track with completion flag",
+        "### Case 3: No Sprint Files \u2014 Guidance to run /sprint-plan",
+        "### Case 4: Edge Case \u2014 Stale In Progress Story (flagged)",
+        "### Case 5: Gate Compliance \u2014 Read-only; no gate invocation",
+        "### Case 6: Default Minimal Workflow \u2014 Build-order progress, no sprint files",
+        "### Case 7: Minimal Workflow \u2014 Every unfinished story Blocked or Draft"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "story-status"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "team-ui",
+      "kind": "skill",
+      "category": "team",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Full pipeline from UX spec through polish succeeds",
+        "### Case 2: UX Review Gate \u2014 Spec fails review; skill halts before implementation",
+        "### Case 3: No Argument \u2014 Usage guidance shown",
+        "### Case 4: Accessibility Parallel Review \u2014 Phase 4 runs three streams simultaneously",
+        "### Case 5: Missing Interaction Pattern Library \u2014 Skill notes the gap rather than inventing patterns",
+        "### Case 6: `review_mode` gates nothing \u2014 art-director stays in the roster at lean and solo"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "team-combat",
+      "kind": "skill",
+      "category": "team",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 All agents succeed, full pipeline runs to completion",
+        "### Case 2: Blocked Agent \u2014 One subagent returns BLOCKED mid-pipeline",
+        "### Case 3: No Argument \u2014 Clear usage guidance shown",
+        "### Case 4: Parallel Phase Validation \u2014 Phase 3 agents run simultaneously",
+        "### Case 5: Architecture Phase Engine Routing \u2014 Engine specialist resolved from config"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "team-narrative",
+      "kind": "skill",
+      "category": "team",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 All five phases complete, narrative doc delivered",
+        "### Case 2: Lore Contradiction Found \u2014 world-builder finds conflict before writer proceeds",
+        "### Case 3: No Argument \u2014 Usage guidance shown",
+        "### Case 4: Localization Compliance \u2014 localization-lead blocks on a non-translatable string",
+        "### Case 5: Writer Blocked \u2014 Missing character voice profiles",
+        "### Case 6: `review_mode` gates nothing but the `small` roster \u2014 ND-CONSISTENCY runs in every mode"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "team-audio",
+      "kind": "skill",
+      "category": "team",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 All steps complete, audio design document saved",
+        "### Case 2: Accessibility Gap \u2014 Critical gameplay audio event has no visual fallback",
+        "### Case 3: No Argument \u2014 Usage guidance or design doc inference",
+        "### Case 4: Missing Sound Bible \u2014 Skill notes the gap and proceeds without it",
+        "### Case 5: Engine Not Configured \u2014 Engine specialist step skipped and recorded",
+        "### Case 6: `review_mode` gates nothing \u2014 the same request at full, lean and solo"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "team-level",
+      "kind": "skill",
+      "category": "team",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 All team members produce outputs, document compiled and saved",
+        "### Case 2: Blocked Agent (world-builder) \u2014 Partial report produced with gap noted",
+        "### Case 3: No Argument \u2014 Usage guidance shown",
+        "### Case 4: Accessibility Review Gate \u2014 Blocking concern surfaces before sign-off",
+        "### Case 5: Circular Level Reference \u2014 Adjacent area dependency flagged"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "team-polish",
+      "kind": "skill",
+      "category": "team",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Full pipeline completes, READY FOR RELEASE verdict",
+        "### Case 2: Performance Blocker \u2014 Frame budget violation cannot be fully resolved",
+        "### Case 3: No Argument \u2014 Usage guidance shown",
+        "### Case 4: Engine-Level Bottleneck \u2014 engine-programmer spawned conditionally in Phase 2",
+        "### Case 5: Regression Found \u2014 Polish change broke an existing feature",
+        "### Case 6: No Budgets Committed \u2014 NOT ASSESSED, not READY FOR RELEASE",
+        "### Case 7: Default `individual` \u2014 the optimisation list is handed to `/dev-story`",
+        "### Case 8: Workflow Minimal \u2014 NEEDS MORE WORK goes to the brief's build order"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "team-release",
+      "kind": "skill",
+      "category": "team",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path (Single-Player) \u2014 All phases complete, version deployed",
+        "### Case 2: Go/No-Go: NO \u2014 S1 bug found in Phase 3, deployment skipped",
+        "### Case 3: Security Audit for Online Game \u2014 security-engineer is spawned in Phase 3",
+        "### Case 4: Localization Miss \u2014 Untranslated strings reach the go/no-go call",
+        "### Case 5: No Argument \u2014 Skill infers version or asks",
+        "### Case 6: Stage Still Polish \u2014 Stops Before Phase 1, Nothing Spawned"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "team-live-ops",
+      "kind": "skill",
+      "category": "team",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 All 7 phases complete, season plan produced",
+        "### Case 2: Ethics Violation Found \u2014 Reward element violates ethics policy",
+        "### Case 3: No Argument \u2014 Usage guidance shown",
+        "### Case 4: Parallel Phase Validation \u2014 Phases 3 and 4 run simultaneously",
+        "### Case 5: Missing Ethics Policy \u2014 `design/live-ops/ethics-policy.md` does not exist",
+        "### Case 6: Workflow Minimal \u2014 The sprint step becomes the brief's build order"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "team-qa",
+      "kind": "skill",
+      "category": "team",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 All stories pass manual QA, APPROVED verdict",
+        "### Case 2: Smoke Check Fail \u2014 QA cycle stops at Phase 2",
+        "### Case 3: Bug Found \u2014 Visual/Feel story fails manual QA, bug report filed",
+        "### Case 4: No Argument \u2014 Skill infers active sprint or asks user",
+        "### Case 5: Mixed Results \u2014 Some PASS, one FAIL with S1 bug, one BLOCKED",
+        "### Case 6: `qa.level: minimal` \u2014 a Logic story with no test is evidenced by its acceptance-criteria walk",
+        "### Case 7: Smoke report NOT ASSESSED \u2014 continue with a warning, sign-off NOT ASSESSED",
+        "### Case 8: An open S1 already on file \u2014 known before sign-off, and the brief names no verdict",
+        "### Case 9: `review_mode` gates nothing \u2014 the same cycle at full, lean and solo"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "skill-test",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Static Mode \u2014 Well-formed skill, all 7 checks pass, COMPLIANT",
+        "### Case 2: Static Mode \u2014 Skill Missing Ask-Before-Write Despite Write Tool in allowed-tools",
+        "### Case 3: Spec Mode \u2014 gate-check Skill Evaluated Against Its Spec",
+        "### Case 4: Audit Mode \u2014 Coverage Table of All Skills and Agents",
+        "### Case 5: Category Mode \u2014 Gate Skill Evaluated Against Quality Rubric",
+        "### Case 6: Spec Mode \u2014 Agent Name Resolves to the Agent",
+        "### Case 7: Static All \u2014 an unreadable skill is NOT ASSESSED and counted",
+        "### Case 8: Spec Mode \u2014 an unevaluable assertion makes the run NOT ASSESSED",
+        "### Case 9: Category Mode \u2014 no rubric section for the category",
+        "### Case 10: Static Mode \u2014 a split skill is read whole, but its frontmatter comes from SKILL.md"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "skill-improve",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Check 4 FAIL and Check 5 WARN fixed, changes kept",
+        "### Case 2: Fix Causes Regression \u2014 revert offered, runs only on yes",
+        "### Case 3: Gate Skill \u2014 combined static + category baseline",
+        "### Case 4: Skill Already Clean \u2014 No improvements needed",
+        "### Case 5: Director Gate Check \u2014 No gate; skill-improve is a meta utility",
+        "### Case 6: Equal Score \u2014 \"no change\" does not keep the fix as an improvement",
+        "### Case 7: Split Skill Regression \u2014 every file named, recorded and restored"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "start",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Fresh repo, Path A, rigor inferred",
+        "### Case 2: Returning User \u2014 Onboarding skipped",
+        "### Case 3: Existing Work on Unity \u2014 Path D, stage from the files, rigor already set",
+        "### Case 4: Clone Still Wired to the Template Repo \u2014 remote note, never run",
+        "### Case 5: Director Gate Check \u2014 No gate; start is a utility setup skill",
+        "### Case 6: Path D With Rigor Unset \u2014 inferred from the description, not asked",
+        "### Case 7: Existing `modes:` Block \u2014 rigor and automation go into it, never a second one",
+        "### Case 8: Path D at `minimal` With No Brief \u2014 names where the brief comes from"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "config-set",
+        "project-state",
+        "set-stage"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "help",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Production stage with active sprint",
+        "### Case 2: Concept Stage \u2014 engine configured, no concept document",
+        "### Case 3: No stage recorded \u2014 phase inferred from artifacts",
+        "### Case 4: Argument \u2014 user names the step they finished and says they are unsure",
+        "### Case 5: Director Gate Check \u2014 minimal path, no gate and no gate-check route",
+        "### Case 6: Minimal path \u2014 the checkpoint says the work is written",
+        "### Case 7: Minimal path \u2014 only a blocked story and an unknown status remain",
+        "### Case 8: Minimal path, no game brief \u2014 a built game is documented, not re-brainstormed"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "artifact-check",
+        "story-status"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "brainstorm",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Full mode, 3 concepts, gates at their three points",
+        "### Case 2: Failure Path \u2014 CD-PILLARS returns REJECT",
+        "### Case 3: Lean Mode \u2014 All 4 gates skipped with named notes",
+        "### Case 4: Solo Default \u2014 Minimal tier runs the Lean Brief flow",
+        "### Case 5: Director Gate \u2014 PR-SCOPE returns UNREALISTIC",
+        "### Case 6: Solo Review on the Full Flow \u2014 All 4 gates skipped with Solo-mode notes"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 3
+    },
+    {
+      "name": "project-stage-detect",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Configured Stage Matches the Artifacts",
+        "### Case 2: No Configured Stage \u2014 Inferred From Artifacts, Role Filter Applied",
+        "### Case 3: Configured Stage Contradicted by the Artifacts",
+        "### Case 4: Minimal Workflow Tier \u2014 Absent Docs Are Not Gaps",
+        "### Case 5: Director Gate Check \u2014 None; Declined Write Leaves No File",
+        "### Case 6: Unresolved Code Root \u2014 NOT ASSESSED, not a greenfield project",
+        "### Case 7: Minimal Workflow, No Game Brief \u2014 The follow-up depends on how much code exists"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "artifact-check"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "setup-engine",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Godot 4 + GDScript \u2014 Full engine configuration",
+        "### Case 2: Unity + C# \u2014 Unity-specific configuration",
+        "### Case 3: Unreal \u2014 C++ primary, Blueprint routed to its specialist",
+        "### Case 4: Re-run on a Configured Project \u2014 blocks edited in place",
+        "### Case 5: Director Gate Check \u2014 No gate; setup-engine is a utility skill",
+        "### Case 6: Installed Editor Older Than the Chosen Version \u2014 ask, then record",
+        "### Case 7: Godot not on PATH \u2014 the probed executable goes into `commands.*`",
+        "### Case 8: A skipped question is not an answer"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "project-coherence"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 14
+    },
+    {
+      "name": "quick-design",
+      "kind": "skill",
+      "category": "authoring",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Tweak to an existing system",
+        "### Case 2: Failure Path \u2014 Scope too large; redirected to /design-system",
+        "### Case 3: Edge Case \u2014 Tuning change outside the documented knob range",
+        "### Case 4: Edge Case \u2014 No argument and no systems index",
+        "### Case 5: No Director Gates \u2014 Review mode has no effect",
+        "### Case 6: Edge Case \u2014 No GDD for the system (the default tier)"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "ux-design",
+      "kind": "skill",
+      "category": "authoring",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 New HUD design",
+        "### Case 2: Existing Document \u2014 Retrofit of incomplete sections only",
+        "### Case 3: Missing Context \u2014 No game concept and no player journey",
+        "### Case 4: No Argument Provided \u2014 Ask instead of failing",
+        "### Case 5: No Director Gate \u2014 `/ux-review` is the separate review",
+        "### Case 6: Handoff \u2014 names the Production gate and what the review requirement depends on"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 9
+    },
+    {
+      "name": "ux-review",
+      "kind": "skill",
+      "category": "authoring",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Complete UX spec, APPROVED",
+        "### Case 2: Empty Accessibility Section \u2014 NEEDS REVISION",
+        "### Case 3: Incomplete States \u2014 NEEDS REVISION outranks NOT ASSESSED",
+        "### Case 4: Nothing to Assess Against \u2014 NOT ASSESSED",
+        "### Case 5: `all` Argument and No Director Gate"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "art-bible",
+      "kind": "skill",
+      "category": "authoring",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Full mode, full workflow, all nine sections, AD-ART-BIBLE approves",
+        "### Case 2: AD-ART-BIBLE Returns CONCERNS or NOT ASSESSED",
+        "### Case 3: Lean Mode, Standard Workflow \u2014 Core sections only, gate skipped",
+        "### Case 4: Existing Art Bible \u2014 Retrofit of incomplete sections only",
+        "### Case 5: Solo Mode and Missing Concept"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "create-architecture",
+      "kind": "skill",
+      "category": "authoring",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 New architecture document, full mode, reviews approve",
+        "### Case 2: Review Concerns \u2014 LP-FEASIBILITY returns CONCERNS",
+        "### Case 3: Lean and Solo Modes \u2014 Both reviews skipped, written with user approval only",
+        "### Case 3b: Review Rejects \u2014 Accept Is Not Offered",
+        "### Case 4: Edge Case \u2014 Systems index missing or empty",
+        "### Case 5: ADR Audit \u2014 Proposed ADRs and uncovered requirements",
+        "### Case 6: Existing Architecture Document \u2014 Update in place, never overwritten unasked",
+        "### Case 7: Re-run with a TR registry \u2014 registered IDs are reused, new ones are provisional"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "registry"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 11
+    },
+    {
+      "name": "code-review",
+      "kind": "skill",
+      "category": "analysis",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Standards-compliant file that follows its ADR",
+        "### Case 2: Changes Required \u2014 Missing doc comments and singleton usage, no ADR",
+        "### Case 3: Architectural Violation \u2014 Code uses a pattern its ADR rejects",
+        "### Case 4: Edge Case \u2014 No source files at the specified path",
+        "### Case 5: No Engine Configured \u2014 Skipped specialists announce themselves; no gate",
+        "### Case 5b: No Engine Configured, Clean File \u2014 NOT ASSESSED, never APPROVED",
+        "### Case 6: Referenced ADR missing \u2014 the section's NOT ASSESSED reaches the verdict"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "balance-check",
+      "kind": "skill",
+      "category": "analysis",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 All balance values within their intended ranges",
+        "### Case 2: Outlier \u2014 Player damage far above its intended range",
+        "### Case 3: No Design Targets \u2014 Data exists but no GDD or registry defines the ranges",
+        "### Case 4: Registry First \u2014 The registry value overrides a contradicting GDD",
+        "### Case 5: No Argument, Gate Compliance and the Save Path",
+        "### Case 6: Orphan Stat \u2014 A data value no GDD or registry defines"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "asset-audit",
+      "kind": "skill",
+      "category": "analysis",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 All assets follow naming conventions",
+        "### Case 2: Non-Compliant \u2014 Textures exceed size budget",
+        "### Case 3: Format Issue \u2014 Music in wrong format",
+        "### Case 4: Missing Asset \u2014 Referenced by code but absent from assets/",
+        "### Case 5: No Data \u2014 No assets and no asset standards",
+        "### Case 6: Zero Assets \u2014 Standards exist, nothing to audit",
+        "### Case 7: No Standards \u2014 Assets exist, no size budget anywhere",
+        "### Case 8: Unreal Project \u2014 Assets under `Content/`",
+        "### Case 9: Engine Unresolved \u2014 Stop before scanning"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "content-audit",
+      "kind": "skill",
+      "category": "analysis",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 All specified content present",
+        "### Case 2: Gaps Found \u2014 MVP enemy content barely started",
+        "### Case 3: No Design Inputs \u2014 Nothing to audit against",
+        "### Case 3b: No Counts Anywhere \u2014 GDDs exist but none gives a count",
+        "### Case 4: Edge Case \u2014 A pre-Summary GDD describes content without a count",
+        "### Case 5: Gate Compliance \u2014 No gate; optional report requires approval",
+        "### Case 6: Standard Workflow \u2014 Only counts in the required sections are audited",
+        "### Case 7: Minimal Workflow \u2014 No systems index to audit against",
+        "### Case 8: Code Root Unresolved \u2014 The level count is not taken"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "tech-debt",
+      "kind": "skill",
+      "category": "analysis",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Scan appends new findings to an existing register",
+        "### Case 2: No Subcommand \u2014 Usage and FAIL",
+        "### Case 3: Empty Code Root \u2014 NOT ASSESSED, not a clean scan",
+        "### Case 3b: Code Root Unresolved \u2014 NOT ASSESSED, nothing scanned on a guess",
+        "### Case 4: Add Mode \u2014 User declines the write",
+        "### Case 4a: Add Mode \u2014 Matches an Existing Open Entry",
+        "### Case 4b: Report Mode Without a Register \u2014 NOT ASSESSED",
+        "### Case 5: Prioritize in Full Review Mode \u2014 Scored, re-sorted, approved",
+        "### Case 5b: Prioritize at Workflow Minimal \u2014 Build next, not a sprint"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "scope-check",
+      "kind": "skill",
+      "category": "analysis",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Multi-word feature on track",
+        "### Case 2: Significant Creep \u2014 Sprint gained unplanned items",
+        "### Case 3: Baseline Missing \u2014 Report the missing file and stop",
+        "### Case 4: Empty Baseline \u2014 NOT ASSESSED, not 0%",
+        "### Case 4b: Unreadable Current State \u2014 NOT ASSESSED, not \u2212100%",
+        "### Case 5: Minor Creep in Full Review Mode \u2014 CONCERNS, no gates"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "estimate",
+      "kind": "skill",
+      "category": "analysis",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Clear task in a documented system with existing patterns",
+        "### Case 2: High Uncertainty \u2014 New subsystem, no architecture decided",
+        "### Case 3: No Sprint Velocity Data \u2014 Estimate still produced, gap stated",
+        "### Case 4: Vague Task \u2014 Clarification before estimating",
+        "### Case 5: Gate Compliance \u2014 No gate; estimates are informational"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "perf-profile",
+      "kind": "skill",
+      "category": "analysis",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Budgets committed, combat hotspots found",
+        "### Case 2: No Committed Budget \u2014 Budget rows are NOT ASSESSED",
+        "### Case 3: Nothing to Profile \u2014 Whole verdict NOT ASSESSED \u2014 NO DATA",
+        "### Case 4: Local Enforcement Override `block` \u2014 Violations are blockers",
+        "### Case 5: Enforcement Level `off` in Full Review Mode \u2014 Informational only, no gates",
+        "### Case 6: `workflow` \u2014 where an accepted optimization goes",
+        "### Case 7: Session Started in a Subfolder \u2014 budgets are still read from the project root"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "security-audit",
+      "kind": "skill",
+      "category": "analysis",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Single-player Godot project, no findings",
+        "### Case 1b: Single-player, One HIGH Finding \u2014 FIX BEFORE SHIPPING",
+        "### Case 2: Multiplayer Critical \u2014 Client-authoritative RPC and a hardcoded key",
+        "### Case 3: Multiplayer Scope Unset \u2014 Absent is not `false`",
+        "### Case 4: No Implemented Surface \u2014 NOT ASSESSED \u2014 INSUFFICIENT IMPLEMENTATION",
+        "### Case 5: Unity Project in Full Review Mode \u2014 NOT SOURCEABLE category, no gates",
+        "### Case 5b: Ranking \u2014 An open HIGH outranks an unsourced category"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "test-evidence-review",
+      "kind": "skill",
+      "category": "analysis",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Single Logic story with a strong test",
+        "### Case 2: Vacuous and Thin Tests \u2014 INCOMPLETE with a BLOCKING item",
+        "### Case 3: Empty Sprint Scope at Minimal Workflow \u2014 NOT ASSESSED, not a clean report",
+        "### Case 4: Story Type Unknown \u2014 Per-story NOT ASSESSED lifts the overall verdict",
+        "### Case 5: Visual/Feel Evidence Without a Retained Screenshot, Full Review Mode \u2014 No gates",
+        "### Case 6: UI Story Closed by Its Screenshots \u2014 No Sign-Off Required",
+        "### Case 7: Unity Logic Story \u2014 Evidence at the Stated Engine Path",
+        "### Case 8: No Test for a Logic Story \u2014 MISSING, and it outranks NOT ASSESSED",
+        "### Case 9: `qa.level: minimal` \u2014 a Logic Story With No Test Is WAIVED; a UI Screenshot Is Not"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "review-receipts"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "test-flakiness",
+      "kind": "skill",
+      "category": "analysis",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 High flakiness from JUnit history, quarantined on approval",
+        "### Case 2: Moderate Flakiness \u2014 Fix directly, do not quarantine",
+        "### Case 3: No Result Data \u2014 List options and stop",
+        "### Case 4: Too Few Runs \u2014 Suspected, not confirmed",
+        "### Case 5: Registry Mode in Full Review Mode \u2014 Guidance for known quarantined tests, no gates"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "reverse-document",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Well-Structured Source at `full` \u2014 8-section GDD produced",
+        "### Case 2: Unanswered Intent \u2014 INTENT UNKNOWN carried into the draft",
+        "### Case 3: Architecture Type on Interdependent Files \u2014 tier-independent ADR",
+        "### Case 4: Thin Source \u2014 Sufficiency check stops the run",
+        "### Case 5: Director Gate Check \u2014 No gate; declined write is BLOCKED",
+        "### Case 6: Default Tier \u2014 a single system becomes a one-page brief",
+        "### Case 7: Minimal Tier, Path Is the Code Root \u2014 the whole-game brief"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "bug-report",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 User describes a crash, full report produced",
+        "### Case 2: No Argument \u2014 Asks for a description before drafting",
+        "### Case 3: Close Mode \u2014 Bug not yet verified is refused",
+        "### Case 4: Multi-System Bug \u2014 One report, primary and related systems",
+        "### Case 5: Director Gate Check \u2014 Analyze Mode, no gate",
+        "### Case 6: Verify Mode \u2014 older three-digit file found by its number, CANNOT VERIFY",
+        "### Case 7: Verify then Close \u2014 no test covers the bug, the user's play settles it"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "hotfix",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 S1 crash fixed with record, branch, approvals and backport",
+        "### Case 2: Sign-off REJECT \u2014 Deployment blocked",
+        "### Case 3: Release Branch \u2014 Deploy approval holds even in autonomous mode",
+        "### Case 4: Not an Emergency \u2014 a cosmetic S4 redirected before any work",
+        "### Case 5: Director Gate Check \u2014 Producer sign-off, and NOT ASSESSED QA is not a pass",
+        "### Case 6: Smoke Check FAIL \u2014 back to Phase 4, and a CONCERNS sign-off still blocks"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": false,
+      "files_checked": 2
+    },
+    {
+      "name": "prototype",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Engine Prototype, PROCEED",
+        "### Case 2: PIVOT \u2014 Carry-Forward Note Written",
+        "### Case 3: KILL \u2014 Soundness Check and Graveyard Entry",
+        "### Case 4: Spike Mode \u2014 No Debrief, No Gate, No PROCEED/PIVOT/KILL",
+        "### Case 5: Director Gate \u2014 CD-PLAYTEST by Review Mode and Pillars",
+        "### Case 6: NOT ASSESSED (Unplayed) and the `workflow: minimal` PROCEED Route",
+        "### Case 7: Spike Mode at `workflow: minimal` \u2014 the build order, not a sprint"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 12
+    },
+    {
+      "name": "playtest-report",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Analyze Notes, Findings Routed by Bucket",
+        "### Case 2: New Mode \u2014 Blank Template Output",
+        "### Case 3: Observation Conflicts With Design Intent",
+        "### Case 4: Edge Case \u2014 Full Review Mode With No Pillars Available",
+        "### Case 5: Director Gate \u2014 CD-PLAYTEST by Review Mode"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "milestone-review",
+      "kind": "skill",
+      "category": "sprint",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Nearly complete milestone with one deferred feature",
+        "### Case 2: Blocked Milestone \u2014 Producer returns OFF TRACK",
+        "### Case 3: Full Mode \u2014 PR-MILESTONE returns AT RISK over scope drift",
+        "### Case 4: Edge Case \u2014 No milestone definition and no sprint data",
+        "### Case 5: Lean/Solo Mode \u2014 PR-MILESTONE gate skipped",
+        "### Case 6: Lean Mode from Rigor \u2014 PR-MILESTONE skipped with the Lean note",
+        "### Case 7: Gate returns NOT ASSESSED \u2014 Never GO"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "retrospective",
+      "kind": "skill",
+      "category": "sprint",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Sprint with mixed outcomes",
+        "### Case 2: No Sprint Data \u2014 Manual input fallback",
+        "### Case 3: Prior Retrospective Exists \u2014 Update existing or start fresh",
+        "### Case 4: Edge Case \u2014 Unresolved action items from previous retrospective",
+        "### Case 5: Gate Compliance \u2014 No gate invoked in any mode",
+        "### Case 6: Minimal Workflow \u2014 Look back over the closed stories"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "changelog",
+      "kind": "skill",
+      "category": "sprint",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Multiple sprints since last release tag",
+        "### Case 2: No Git Tags Found \u2014 Bounded range used",
+        "### Case 3: Commit Messages Without Task IDs \u2014 Categorized by content, counted in Metrics",
+        "### Case 4: Existing CHANGELOG.md \u2014 New entry at the top, old entries preserved",
+        "### Case 5: Gate Compliance \u2014 No gate; declined write ends COMPLETE",
+        "### Case 6: Provenance Stop \u2014 Zero Game commits",
+        "### Case 7: No History \u2014 Not a git repository"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "patch-notes",
+      "kind": "skill",
+      "category": "sprint",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Changelog filtered to player-facing entries",
+        "### Case 2: No Changelog File \u2014 Falls back to git history",
+        "### Case 3: Tone Guidance from Design Folder \u2014 Incorporated into output",
+        "### Case 4: Patch Note Template Exists \u2014 Used instead of the built-in styles",
+        "### Case 5: Gate Compliance \u2014 No gate; community-manager is separate",
+        "### Case 6: Provenance Stop \u2014 Zero Game commits",
+        "### Case 7: No Changelog Data \u2014 No changelog and no git history"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "onboard",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Programmer Role on a Godot Project",
+        "### Case 2: Designer Role \u2014 Scans design/, Not the Code Root",
+        "### Case 3: Every Input Absent \u2014 NOT ASSESSED, No Document",
+        "### Case 4: Edge Case \u2014 Programmer Role With an Unresolved Code Root",
+        "### Case 5: Director Gate Check \u2014 None; No Agents Spawned"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "localize",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Extract \u2014 New Strings Keyed and Appended After Approval",
+        "### Case 2: No Subcommand \u2014 Usage and FAIL",
+        "### Case 3: Validate \u2014 Gaps Reported by Locale, Nothing Written",
+        "### Case 4: Status With No String Table \u2014 NOT ASSESSED",
+        "### Case 5: Director Gate Check \u2014 None; Cultural Review Uses localization-lead",
+        "### Case 6: Scan With an Unresolved Code Root \u2014 NOT ASSESSED, never \"no hardcoded strings\"",
+        "### Case 7: QA on a Locale Nobody Has Played \u2014 NOT ASSESSED"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "launch-checklist",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Steam project, clean scans, every section confirmed, READY",
+        "### Case 2: Blocking Findings \u2014 FIXMEs and debug output",
+        "### Case 3: Cert Tier Unset \u2014 Ask, do not emit every track",
+        "### Case 4: Nothing to Scan \u2014 `[?]` items, not green ticks",
+        "### Case 5: Director Gate Check \u2014 Dry run, cert tier `none`",
+        "### Case 6: Stage Still Polish \u2014 Answers Make It CONDITIONAL, or NOT ASSESSED"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": false,
+      "files_checked": 2
+    },
+    {
+      "name": "release-checklist",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 PC Build on the Steam Tier",
+        "### Case 2: Device Argument and Certification Tier Are Separate Axes",
+        "### Case 3: cert_tier none vs Unset \u2014 Different Output",
+        "### Case 4: Edge Case \u2014 Nothing to Scan, No Test Output",
+        "### Case 5: Director Gate Check \u2014 None; Sign-Offs Are Listed, Not Spawned",
+        "### Case 6: A Known Blocker Outranks an Unassessed Section",
+        "### Case 7: Bug Thresholds Follow the Workflow Tier",
+        "### Case 8: No Bug Records \u2014 NOT ASSESSED, Not Zero"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "adopt",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 All GDDs compliant, no BLOCKING or HIGH gaps",
+        "### Case 2: Non-Compliant Documents \u2014 GDDs missing sections, BLOCKING and HIGH gaps",
+        "### Case 3: Mixed State \u2014 Some docs compliant, some not, partial report",
+        "### Case 4: No Artifacts Found \u2014 Fresh project, guidance to run /start",
+        "### Case 5: Director Gate Check \u2014 No gate; minimal tier scopes the audit to the brief",
+        "### Case 6: v1.0 Project \u2014 Converter run, never hand-migrated"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "gdd-structure-check"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 9
+    },
+    {
+      "name": "smoke-check",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Automated tests pass, manual items confirmed, PASS",
+        "### Case 2: Failure Path \u2014 Automated test fails, blocking FAIL",
+        "### Case 3: Manual Confirmation \u2014 MISSING coverage, PASS WITH WARNINGS",
+        "### Case 4: Scaffold Without Game Tests \u2014 NOT ASSESSED, then stop",
+        "### Case 4b: No Game Tests at `qa.level: minimal` \u2014 WAIVED, the build carries the verdict",
+        "### Case 5: Director Gate Check \u2014 No gate; smoke-check is a QA pre-check utility",
+        "### Case 6: gdUnit4 Lookalikes \u2014 exit 0 over zero tests, and exit 101",
+        "### Case 7: Timeout \u2014 the suite never completed, FAIL",
+        "### Case 8: Batch 3 Skipped \u2014 NOT ASSESSED, not PASS",
+        "### Case 9: Unity \u2014 Play Mode is a second run",
+        "### Case 10: `quick` \u2014 no coverage scan, no Batch 3",
+        "### Case 11: `--platform` \u2014 platform batches and a per-platform verdict table",
+        "### Case 12: Phase files \u2014 each `references/` file is read before its phase, and again after compaction"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "project-coherence"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 8
+    },
+    {
+      "name": "soak-test",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 2-hour, all-focus soak on Godot",
+        "### Case 2: No Arguments \u2014 Defaults applied",
+        "### Case 3: Narrow Focus on Unreal \u2014 4-hour memory soak",
+        "### Case 4: No Performance Budgets \u2014 \"not set\", never invented",
+        "### Case 5: Director Gate Check \u2014 No gate; soak-test is a planning utility",
+        "### Case 6: Minimal workflow \u2014 the run steps end with `/bug-triage full`"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "test-setup",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Godot project, scaffolds GdUnit4 test structure",
+        "### Case 2: Unity Project \u2014 Scaffolds Unity Test Runner with asmdef",
+        "### Case 3: Infrastructure Already Exists \u2014 Early exit, nothing re-initialized",
+        "### Case 4: No Engine Configured \u2014 Redirects to /setup-engine",
+        "### Case 5: Director Gate Check \u2014 No gate; test-setup is a scaffolding utility"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 8
+    },
+    {
+      "name": "test-helpers",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Player helper generated for Godot/GDScript",
+        "### Case 2: Engine Not Configured \u2014 Stops with /setup-engine",
+        "### Case 3: Helper Already Exists \u2014 Skipped, never overwritten",
+        "### Case 4: Framework Assertion API Unconfirmed \u2014 No helper generated",
+        "### Case 5: Director Gate Check \u2014 No gate; test-helpers is a scaffolding utility",
+        "### Case 6: Unity \u2014 Helpers under the engine's test root"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "regression-suite",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Audit \u2014 Criteria Mapped, Formula Gap Raised to HIGH",
+        "### Case 2: Update \u2014 Fixed Bug Without a Regression Test",
+        "### Case 3: qa.level minimal \u2014 Suite Not Generated",
+        "### Case 4: Edge Case \u2014 No Test Files, Coverage NOT ASSESSED",
+        "### Case 5: Director Gate Check \u2014 None; Report Mode Is Read-Only",
+        "### Case 6: Workflow Minimal With a Writing QA Level \u2014 \"Next story\" wording, gate requirement only at full"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "qa-plan",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Sprint With Four Typed Stories",
+        "### Case 2: Story Without Acceptance Criteria and a Missing Story File",
+        "### Case 3: Mode Variant \u2014 qa.level minimal",
+        "### Case 4: No Sprint Plan \u2014 NOT ASSESSED",
+        "### Case 5: Director Gate Check \u2014 None"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "bug-triage",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Sprint mode, 5 bugs grouped by priority",
+        "### Case 2: No Bug Files Found \u2014 Stops without a report",
+        "### Case 3: Systemic Issues \u2014 Deviation check flags a hot spot and a regression",
+        "### Case 4: Sprint at Capacity \u2014 Overflow flagged, Won't Fix asked, write declined",
+        "### Case 5: Director Gate Check \u2014 Full mode, no P1 bugs",
+        "### Case 6: Minimal workflow \u2014 no sprints by design, P1 bugs ahead of the next brief story"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "asset-spec",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Character spec in lean mode",
+        "### Case 2: No Art Bible \u2014 Skill stops before speccing",
+        "### Case 3: Manifest Already Exists \u2014 IDs continue and shared assets are reused",
+        "### Case 4: Several Assets in One Target \u2014 One file, per-asset revision before write",
+        "### Case 5: Director Gate Check \u2014 Solo default, brief instead of art bible",
+        "### Case 6: Re-run on an Existing Spec \u2014 Updated in place, not overwritten"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "day-one-patch",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 Scope, rollback plan first, fixes, patch record",
+        "### Case 2: Critical Bug That Cannot Be Fixed Safely \u2014 Accepted risk, rollback trigger",
+        "### Case 3: No Release-Gate Record \u2014 NOT ASSESSED, not assumed",
+        "### Case 4: Nothing Worth Patching \u2014 User selects \"No day-one patch needed\"",
+        "### Case 5: Director Gate Check \u2014 Patch QA NOT ASSESSED is not a pass",
+        "### Case 6: Deferred Bugs With No Sprint Plan \u2014 Scheduled into the brief's build order"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [],
+      "implicit_invocation": false,
+      "files_checked": 2
+    },
+    {
+      "name": "settings",
+      "kind": "skill",
+      "category": "utility",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: Happy Path \u2014 view-all shows derived values, a local override and the legend",
+        "### Case 2: View-one \u2014 a rigor-derived key says how to set it",
+        "### Case 3: Set-yaml \u2014 changing `modes.rigor` reports the six knobs it moves",
+        "### Case 4: Invalid value \u2014 rejected before any question",
+        "### Case 5: `--local` on a locked key \u2014 refused with the team-wide route",
+        "### Case 6: `--local` on a whitelisted key \u2014 creates the override file",
+        "### Case 7: Reserved setting \u2014 stored on request, flagged on every form",
+        "### Case 8: Shadowed write and autonomous mode \u2014 still asked, with the shadow named",
+        "### Case 9: Malformed operand \u2014 usage, no write"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only",
+      "helpers_referenced": [
+        "config-set"
+      ],
+      "implicit_invocation": true,
+      "files_checked": 2
+    },
+    {
+      "name": "creative-director",
+      "kind": "agent",
+      "category": "director",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output format",
+        "### Case 2: Out-of-domain request \u2014 redirects or escalates",
+        "### Case 3: Gate verdict \u2014 correct vocabulary",
+        "### Case 4: Conflict escalation \u2014 correct parent",
+        "### Case 5: Context pass \u2014 uses provided context",
+        "### Case 6: Missing gate input \u2014 NOT ASSESSED"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "technical-director",
+      "kind": "agent",
+      "category": "director",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output format",
+        "### Case 2: Out-of-domain request \u2014 redirects or escalates",
+        "### Case 3: Gate verdict \u2014 correct vocabulary",
+        "### Case 4: Conflict escalation \u2014 correct parent",
+        "### Case 5: Context pass \u2014 uses provided context",
+        "### Case 6: Missing gate input \u2014 NOT ASSESSED",
+        "### Case 7: Phase gate \u2014 judged against the phase being entered"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "producer",
+      "kind": "agent",
+      "category": "director",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output format",
+        "### Case 2: Out-of-domain request \u2014 redirects or escalates",
+        "### Case 3: Gate verdict \u2014 correct vocabulary",
+        "### Case 4: Conflict escalation \u2014 correct parent",
+        "### Case 5: Context pass \u2014 uses provided context",
+        "### Case 6: Missing gate input \u2014 NOT ASSESSED",
+        "### Case 7: Phase gate at `minimal` \u2014 the brief's Build order is the plan"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "art-director",
+      "kind": "agent",
+      "category": "director",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output format",
+        "### Case 2: Out-of-domain request \u2014 redirects or escalates",
+        "### Case 3: Gate verdict \u2014 correct vocabulary",
+        "### Case 4: Conflict escalation \u2014 correct parent",
+        "### Case 5: Context pass \u2014 uses provided context",
+        "### Case 6: Missing gate input \u2014 NOT ASSESSED"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "lead-programmer",
+      "kind": "agent",
+      "category": "lead",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output format",
+        "### Case 2: Out-of-domain request \u2014 redirects or escalates",
+        "### Case 3: Gate verdict \u2014 correct vocabulary",
+        "### Case 4: Conflict escalation \u2014 correct parent",
+        "### Case 5: Context pass \u2014 uses provided context",
+        "### Case 6: Missing gate input \u2014 NOT ASSESSED"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "qa-lead",
+      "kind": "agent",
+      "category": "lead",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output format",
+        "### Case 2: Out-of-domain request \u2014 redirects or escalates",
+        "### Case 3: Gate verdict \u2014 correct vocabulary",
+        "### Case 4: Conflict escalation \u2014 correct parent",
+        "### Case 5: Context pass \u2014 uses provided context",
+        "### Case 6: Gate input missing \u2014 NOT ASSESSED",
+        "### Case 7: `qa.level: minimal` \u2014 tests waived, screenshots not"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "narrative-director",
+      "kind": "agent",
+      "category": "lead",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output format",
+        "### Case 2: Out-of-domain request \u2014 redirects or escalates",
+        "### Case 3: Gate verdict \u2014 correct vocabulary",
+        "### Case 4: Conflict escalation \u2014 correct parent",
+        "### Case 5: Context pass \u2014 uses provided context",
+        "### Case 6: Gate input missing \u2014 NOT ASSESSED"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "audio-director",
+      "kind": "agent",
+      "category": "lead",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output format",
+        "### Case 2: Out-of-domain request \u2014 redirects or escalates",
+        "### Case 3: Review findings \u2014 specific, verdict left to the review skill",
+        "### Case 4: Conflict escalation \u2014 correct parent",
+        "### Case 5: Context pass \u2014 uses provided context"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "game-designer",
+      "kind": "agent",
+      "category": "lead",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output format",
+        "### Case 2: Out-of-domain request \u2014 redirects or escalates",
+        "### Case 3: Review findings \u2014 specific, verdict left to the review skill",
+        "### Case 4: Conflict escalation \u2014 correct parent",
+        "### Case 5: Context pass \u2014 uses provided context",
+        "### Case 6: Section set at `modes.workflow: standard`"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "systems-designer",
+      "kind": "agent",
+      "category": "lead",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output format",
+        "### Case 2: Out-of-domain request \u2014 redirects or escalates",
+        "### Case 3: Review findings \u2014 degenerate case at the boundaries",
+        "### Case 4: Conflict escalation \u2014 correct parent",
+        "### Case 5: Context pass \u2014 uses provided context"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "level-designer",
+      "kind": "agent",
+      "category": "lead",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output format",
+        "### Case 2: Out-of-domain request \u2014 redirects or escalates",
+        "### Case 3: Review findings \u2014 specific, verdict left to the review skill",
+        "### Case 4: Conflict escalation \u2014 correct parent",
+        "### Case 5: Context pass \u2014 uses provided context"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "gameplay-programmer",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: Domain boundary \u2014 threading flag",
+        "### Case 4: Conflict with an Accepted ADR",
+        "### Case 5: Context pass \u2014 implements to GDD spec"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "ai-programmer",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: Cross-domain coordination \u2014 level constraints",
+        "### Case 4: Performance work in its own domain \u2014 custom data structures",
+        "### Case 5: Context pass \u2014 implements from the level layout and encounter spec"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "technical-artist",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: Performance warning \u2014 GPU particle count",
+        "### Case 4: Engine version compatibility",
+        "### Case 5: Context pass \u2014 uses performance budget"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "sound-designer",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: Dynamic parameter \u2014 falloff curve spec",
+        "### Case 4: Naming convention conflict",
+        "### Case 5: Context pass \u2014 uses audio style guide"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "engine-programmer",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: Memory leak diagnosis",
+        "### Case 4: Cross-domain coordination \u2014 shared system optimization",
+        "### Case 5: Context pass \u2014 checks engine version reference"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "tools-programmer",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: Runtime data access \u2014 coordination required",
+        "### Case 4: Engine version breakage",
+        "### Case 5: Context pass \u2014 art pipeline requirements"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "network-programmer",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: State divergence \u2014 rollback/reconciliation",
+        "### Case 4: Anti-cheat conflict",
+        "### Case 5: Context pass \u2014 latency budget"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "security-engineer",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: Critical vulnerability \u2014 SQL injection",
+        "### Case 4: Security vs. performance trade-off",
+        "### Case 5: Context pass \u2014 OWASP guidelines"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "accessibility-specialist",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: Colorblind mode conflict",
+        "### Case 4: UI state requirement for accessibility feature",
+        "### Case 5: Context pass \u2014 WCAG 2.1 targets"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "ux-designer",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: Flow depth conflict \u2014 simplification",
+        "### Case 4: Accessibility conflict",
+        "### Case 5: Context pass \u2014 player mental model research"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "ui-programmer",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: Custom animation coordination",
+        "### Case 4: Ambiguous UX spec \u2014 flags back",
+        "### Case 5: Context pass \u2014 engine UI toolkit"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "performance-analyst",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: Regression identification",
+        "### Case 4: Recommendation vs. code quality trade-off",
+        "### Case 5: Context pass \u2014 project performance budgets"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "godot-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Wrong-engine redirect",
+        "### Case 3: Post-cutoff API risk",
+        "### Case 4: Language selection for a hot path",
+        "### Case 5: Context pass \u2014 engine version 4.6"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "godot-gdscript-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: Async loading with coroutines",
+        "### Case 4: Performance issue \u2014 typed array recommendation",
+        "### Case 5: Context pass \u2014 Godot 4.6 with post-cutoff features"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "godot-csharp-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain request \u2014 redirects correctly",
+        "### Case 3: Async signal awaiting",
+        "### Case 4: Threading model conflict",
+        "### Case 5: Context pass \u2014 Godot 4.7 API correctness"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "godot-shader-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: HLSL redirect",
+        "### Case 3: Post-cutoff API change \u2014 shader texture types (Godot 4.4)",
+        "### Case 4: Fragment shader LOD strategy",
+        "### Case 5: Context pass \u2014 Godot 4.6 glow rework"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "godot-gdextension-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain redirect",
+        "### Case 3: ABI compatibility risk \u2014 minor version update",
+        "### Case 4: Memory management \u2014 RAII for Godot objects",
+        "### Case 5: Context pass \u2014 Godot 4.6 GDExtension API check"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "unity-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Wrong-engine redirect",
+        "### Case 3: Unity version API flag",
+        "### Case 4: DOTS vs. MonoBehaviour conflict",
+        "### Case 5: Context pass \u2014 Unity version"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "unity-ui-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain redirect",
+        "### Case 3: UI Toolkit data binding for dynamic list",
+        "### Case 4: Canvas performance \u2014 overdraw",
+        "### Case 5: Context pass \u2014 Unity version"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "unity-shader-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain redirect",
+        "### Case 3: HDRP custom pass for outline",
+        "### Case 4: VFX Graph performance \u2014 particle budget",
+        "### Case 5: Context pass \u2014 render pipeline (URP or HDRP)"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "unity-dots-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: MonoBehaviour push-back",
+        "### Case 3: Burst-incompatible managed memory",
+        "### Case 4: Hybrid access \u2014 DOTS system needs MonoBehaviour data",
+        "### Case 5: Context pass \u2014 performance targets"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "unity-addressables-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 appropriate output",
+        "### Case 2: Out-of-domain redirect",
+        "### Case 3: Memory leak \u2014 un-released handle",
+        "### Case 4: Remote content delivery \u2014 catalog versioning",
+        "### Case 5: Context pass \u2014 platform memory constraints"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "unreal-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 Blueprint vs C++ decision criteria",
+        "### Case 2: Out-of-domain request \u2014 Unity C# code",
+        "### Case 3: Domain boundary \u2014 UE5.4 API requirement",
+        "### Case 4: Conflict \u2014 Blueprint spaghetti in a core system",
+        "### Case 5: Context pass \u2014 version-appropriate API suggestions"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "ue-blueprint-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 Blueprint graph performance review",
+        "### Case 2: Out-of-domain request \u2014 C++ implementation",
+        "### Case 3: Domain boundary \u2014 unsafe raw pointer access in Blueprint",
+        "### Case 4: Blueprint graph complexity \u2014 readiness for Function Library refactor",
+        "### Case 5: Context pass \u2014 Blueprint complexity budget"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "ue-gas-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 dash ability with cooldown",
+        "### Case 2: Mixed-domain request \u2014 cooldown replication feeding the UI",
+        "### Case 3: Domain boundary \u2014 incorrect GameplayTag hierarchy",
+        "### Case 4: Conflict \u2014 attribute set conflict between two abilities",
+        "### Case 5: Context pass \u2014 designing against an existing attribute set"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "ue-umg-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 inventory widget with data binding",
+        "### Case 2: Out-of-domain request \u2014 UX flow design",
+        "### Case 3: Domain boundary \u2014 CommonUI input action mismatch",
+        "### Case 4: Widget performance issue \u2014 many widget instances per frame",
+        "### Case 5: Context pass \u2014 CommonUI setup already configured"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "ue-replication-specialist",
+      "kind": "agent",
+      "category": "engine",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 replicated player health with client prediction",
+        "### Case 2: Out-of-domain request \u2014 game server architecture",
+        "### Case 3: Domain boundary \u2014 RPC without server authority validation",
+        "### Case 4: Bandwidth optimization \u2014 high-frequency movement replication",
+        "### Case 5: Context pass \u2014 designing within a network budget"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "devops-engineer",
+      "kind": "agent",
+      "category": "operations",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 CI setup for a Godot project",
+        "### Case 2: Out-of-domain request \u2014 game networking implementation",
+        "### Case 3: Build failure diagnosis",
+        "### Case 4: Branching strategy conflict",
+        "### Case 5: Context pass \u2014 platform-specific build matrix"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "release-manager",
+      "kind": "agent",
+      "category": "operations",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 certification checklist for a console submission",
+        "### Case 2: Out-of-domain request \u2014 design test cases",
+        "### Case 3: Domain boundary \u2014 age-rating rejection blocks the release",
+        "### Case 4: Version numbering conflict \u2014 hotfix vs. release branch",
+        "### Case 5: Context pass \u2014 release date constraint and certification lead time"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "live-ops-designer",
+      "kind": "agent",
+      "category": "operations",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 summer event design",
+        "### Case 2: Out-of-domain request \u2014 reward value calculation",
+        "### Case 3: Domain boundary \u2014 predatory monetization concern",
+        "### Case 4: Conflict \u2014 event schedule vs. main game progression pacing",
+        "### Case 5: Context pass \u2014 designing to address a player retention drop-off"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "community-manager",
+      "kind": "agent",
+      "category": "operations",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 patch notes for a bug fix",
+        "### Case 2: Out-of-domain request \u2014 fixing a reported bug",
+        "### Case 3: Community crisis \u2014 backlash over a game change",
+        "### Case 4: Brand voice conflict in patch notes",
+        "### Case 5: Context pass \u2014 using a brand voice document"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "analytics-engineer",
+      "kind": "agent",
+      "category": "operations",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 tutorial event tracking design",
+        "### Case 2: Out-of-domain request \u2014 implement the event tracking in code",
+        "### Case 3: Domain boundary \u2014 A/B test design for a UI change",
+        "### Case 4: Conflict \u2014 test result vs. design intent",
+        "### Case 5: Context pass \u2014 new events consistent with existing schema",
+        "### Case 6: Conflict \u2014 overlapping A/B tests"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "economy-designer",
+      "kind": "agent",
+      "category": "operations",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 loot table design for a chest",
+        "### Case 2: Out-of-domain request \u2014 seasonal event schedule",
+        "### Case 3: Domain boundary \u2014 inflation risk from new currency",
+        "### Case 4: Mid-game progression curve issue",
+        "### Case 5: Context pass \u2014 balance analysis using current economy data"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "localization-lead",
+      "kind": "agent",
+      "category": "operations",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 string extraction pipeline for a Unity project",
+        "### Case 2: Out-of-domain request \u2014 translate game dialogue",
+        "### Case 3: Domain boundary \u2014 missing plural forms in Russian locale",
+        "### Case 4: String key naming conflict between two systems",
+        "### Case 5: Context pass \u2014 pipeline accommodates RTL languages"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "qa-tester",
+      "kind": "agent",
+      "category": "qa",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 test cases for a save system",
+        "### Case 2: Out-of-domain request \u2014 implement a bug fix",
+        "### Case 3: Ambiguous acceptance criterion \u2014 flag to qa-lead",
+        "### Case 4: Regression test after a hotfix",
+        "### Case 5: Context pass \u2014 test evidence format from coding-standards.md"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "prototyper",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 prototype a card-drawing mechanic",
+        "### Case 2: Out-of-domain request \u2014 production-grade implementation",
+        "### Case 3: Prototype validates the mechanic \u2014 recommendation output",
+        "### Case 4: Prototype reveals the mechanic is unworkable \u2014 abandonment note",
+        "### Case 5: Context pass \u2014 using the project's engine scripting language"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "writer",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 NPC merchant dialogue",
+        "### Case 2: Out-of-domain request \u2014 world history design",
+        "### Case 3: Dialogue contradicts established lore \u2014 flag to narrative-director",
+        "### Case 4: Item description references an undesigned mechanic",
+        "### Case 5: Context pass \u2014 character voice guide"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    },
+    {
+      "name": "world-builder",
+      "kind": "agent",
+      "category": "specialist",
+      "structural": "PASS",
+      "errors": [],
+      "spec_cases": [
+        "### Case 1: In-domain request \u2014 faction culture and government design",
+        "### Case 2: Out-of-domain request \u2014 dialogue writing",
+        "### Case 3: New lore entry contradicts established history \u2014 conflict flagging",
+        "### Case 4: World rule has gameplay implications \u2014 coordination with game-designer",
+        "### Case 5: Context pass \u2014 using established world documents"
+      ],
+      "behavioral_execution": "NOT ASSESSED - structural audit only"
+    }
+  ],
+  "passed": true
+}

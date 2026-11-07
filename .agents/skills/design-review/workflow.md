@@ -47,7 +47,7 @@ Resolved mode controls how thorough this review is:
 price and reproduces the same verdict.** Run:
 
 ```
-Bash: bash .claude/scripts/review-receipts.sh check "design/gdd/reviews/[doc-name]-review-log.md" "[target-doc-path]" "design/registry/entities.yaml" ".claude/skills/design-review/SKILL.md"
+Bash: bash .claude/scripts/review-receipts.sh check "design/gdd/reviews/[doc-name]-review-log.md" "[target-doc-path]" "design/registry/entities.yaml" ".agents/skills/design-review/workflow.md"
 ```
 
 The registry is in the check because this review consults it for
@@ -240,7 +240,7 @@ These are the most common baselines - but not required for pure UI specs, audio 
 
 ### Step 2 - Spawn all relevant specialists in parallel
 
-**CRITICAL: `Agent` in this skill spawns a SUBAGENT - a separate independent Claude session
+**CRITICAL: `Agent` in this skill spawns a SUBAGENT - a separate Codex agent when available and authorized
 with its own context window. It is NOT task tracking. Do NOT simulate specialist
 perspectives internally. Do NOT reason through domain views yourself. You MUST issue
 actual `Agent` calls. A simulated review is not a specialist review.**
@@ -421,7 +421,7 @@ Prior verdict resolved: [Yes / No / First review]
 Findings:
 - [BLOCKING] [section]: [one-line finding]
 - [RECOMMENDED] [section]: [one-line finding]
-[output of: Bash: bash .claude/scripts/review-receipts.sh hash "[target-doc-path]" "design/registry/entities.yaml" ".claude/skills/design-review/SKILL.md" [every other file this review read for cross-document facts: the related GDDs in design/gdd/, design/gdd/game-concept.md or design/game-brief.md, the design/narrative/ files] - a file that does not exist prints `not stamped, no such file` and is left out]
+[output of: Bash: bash .claude/scripts/review-receipts.sh hash "[target-doc-path]" "design/registry/entities.yaml" ".agents/skills/design-review/workflow.md" [every other file this review read for cross-document facts: the related GDDs in design/gdd/, design/gdd/game-concept.md or design/game-brief.md, the design/narrative/ files] - a file that does not exist prints `not stamped, no such file` and is left out]
 ```
 
 Findings rules: one line per finding, named by the section it lives in;

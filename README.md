@@ -38,6 +38,12 @@ Tests cover packaging, TOML, supporting resources, reference links, safe paths a
 
 See the [lifecycle report](docs/validation/cycle-2026-11-07.md), [security review](docs/validation/security-2026-11-07.md), and [playable fixture](fixtures/coin-collector/README.md).
 
+The [remaining-workflows review](docs/validation/remaining-workflows-2026-11-07.md)
+covers all 74 native skill definitions and 49 role definitions, with 35 isolated
+helper scenarios and explicit limits on Unity/Unreal and multi-agent execution.
+Run `python tools/audit_codex.py` for the read-only native structure/spec inventory.
+It does not claim the inventoried behavioral cases ran.
+
 ```sh
 python -m pip install -r tools/requirements.txt
 python tools/build_codex.py

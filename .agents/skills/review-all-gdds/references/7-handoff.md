@@ -11,7 +11,7 @@ Before building options, check project state:
 - Are there any Warning-level items that are simple edits (flagged with "30-second edit", "brief addition", or similar)? → offer inline quick-fix option
 - Are any GDDs in the "Flagged for Revision" table? → offer $design-review option for each
 - Read systems-index.md for the next system with Status: Not Started → offer $design-system option
-- Is the verdict PASS or CONCERNS on a review that ran both passes? → offer $gate-check or $create-architecture. A focus run (`consistency` or `design-theory`) checked one pass, so it never offers either
+- Is the verdict PASS or CONCERNS on a review that ran both passes? → offer $gate-check or /create-architecture. A focus run (`consistency` or `design-theory`) checked one pass, so it never offers either
 
 Build the option list dynamically - only include options that apply:
 

@@ -24,7 +24,7 @@ wrong internal format.
 
 **Argument modes:**
 
-**Audit mode:** `$ARGUMENTS` (blank = `full`)
+**Audit mode:** `the invocation arguments` (blank = `full`)
 
 - **No argument / `full`**: Complete audit - all artifact types
 - **`gdds`**: GDD format compliance only

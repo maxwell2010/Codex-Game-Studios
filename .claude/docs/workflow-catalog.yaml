@@ -14,8 +14,10 @@
 # required: false → optional enhancement (shown as OPTIONAL)
 # repeatable: true → runs multiple times (one per system, story, etc.)
 #
-# Phase gates (/gate-check): verdicts are ADVISORY — they guide the decision
-# but never hard-block advancement. The user always decides whether to proceed.
+# Phase gates (/gate-check) do not advance the stage automatically. PASS needs
+# the user's authorized decision; CONCERNS requires accepting the named risks.
+# FAIL never advances, and NOT ASSESSED is not a pass. Apply gate-check's rules,
+# not the artifact-presence observations alone, when choosing the next step.
 
 # Tier paths: a tier whose route is not the phase ladder. At `workflow: minimal`
 # nothing on the path runs /gate-check, so project.stage never leaves Concept —

@@ -36,7 +36,7 @@ developer's local override is silently ignored):
    smoke-check's FAIL gate blocking. Smoke check is a build-health gate, so its
    unset default is strict
    even though the `config` test type defaults to advisory elsewhere. The
-   reciprocal carve-out is recorded in `.claude/skills/story-done/SKILL.md` and
+   reciprocal carve-out is recorded in `.agents/skills/story-done/workflow.md` and
    `.claude/docs/coding-standards.md`, which own the per-story evidence table.
 
 Only `true` and `false` (case-insensitive) are recognized at steps 1-2. A key

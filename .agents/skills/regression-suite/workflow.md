@@ -82,12 +82,21 @@ If it does not exist: note "No regression suite found - will create one."
 
 ### Step 2b - Load test inventory
 
-Glob all test files:
-```
-tests/unit/**/*_test.*
-tests/integration/**/*_test.*
-tests/regression/**/*
-```
+Resolve `engine.name` from `project.yaml` (legacy fallback per
+`.claude/docs/code-root-resolution.md`). Select the roots before any scan:
+
+| Engine | Unit-test root | Integration-test root | Inventory |
+| --- | --- | --- | --- |
+| Godot | `tests/unit/` | `tests/integration/` | `.gd` / `.cs` under both roots and `tests/regression/` |
+| Unity | `Assets/Tests/EditMode/` | `Assets/Tests/PlayMode/` | `.cs` under both roots |
+| Unreal | `Source/<Module>/Private/Tests/` | the same module test root | `.cpp` / `.h` under `Source/**/Private/Tests/` |
+
+For Unreal discover modules from the actual project/source tree; do not guess a
+module name. Unresolved engine or root: NOT ASSESSED with the reason, no scan.
+Do not count `.gitkeep`, README files or helper classes as executable tests.
+Godot tests can use `test_*.gd` as well as `*_test.gd`; do not require one suffix.
+Throughout this workflow, substitute the selected engine roots into searches
+and suggested test paths; the manifest `tests/regression-suite.md` stays shared.
 
 For each file, note the system (from directory path) and file name.
 Do not read test file contents unless needed for name-to-test mapping.
@@ -138,7 +147,7 @@ against those smoke paths and skip the GDD-criterion loop below.)
 
 For each GDD acceptance criterion, determine whether a test exists:
 
-1. Grep `tests/unit/[system]/` and `tests/integration/[system]/` for file names
+1. Grep `[unit-test root]/[system]/` and `tests/integration/[system]/` for file names
    and function names related to the criterion's key noun/verb
 2. Assign coverage:
 
@@ -159,7 +168,7 @@ For each GDD acceptance criterion, determine whether a test exists:
 For each closed bug:
 
 1. Extract the system slug from the bug's metadata
-2. Grep `tests/unit/[system]/` and `tests/integration/[system]/` for a test
+2. Grep `[unit-test root]/[system]/` and `tests/integration/[system]/` for a test
    that references the bug ID or the specific failure scenario
 3. Assign:
    - **HAS REGRESSION TEST** - a test was found that would catch this bug
@@ -167,7 +176,7 @@ For each closed bug:
 
 For MISSING REGRESSION TEST items:
 - Flag them as regression gaps
-- Suggest the test file path: `tests/unit/[system]/[bug-slug]_regression_test.[ext]`
+- Suggest the test file path: `[unit-test root]/[system]/[bug-slug]_regression_test.[ext]`
 - Note: "Without this test, this bug can silently return in a future sprint."
 
 ---
@@ -217,8 +226,8 @@ Check for drift indicators:
 ### Recommended New Regression Tests
 | Priority | System | Suggested Test File | Covers |
 |----------|--------|---------------------|--------|
-| HIGH | [system] | `tests/unit/[system]/[slug]_regression_test.[ext]` | BUG-NNNN / AC-[N] |
-| MEDIUM | [system] | `tests/unit/[system]/[slug]_test.[ext]` | [criterion] |
+| HIGH | [system] | `[unit-test root]/[system]/[slug]_regression_test.[ext]` | BUG-NNNN / AC-[N] |
+| MEDIUM | [system] | `[unit-test root]/[system]/[slug]_test.[ext]` | [criterion] |
 ```
 
 ### Suite manifest format (`tests/regression-suite.md`)
@@ -257,7 +266,7 @@ of which tests should always pass before a release:
 
 | Test File | Test Function (if known) | Covers | Added |
 |-----------|--------------------------|--------|-------|
-| `tests/unit/[system]/[file]_test.[ext]` | `test_[scenario]` | AC-N / BUG-NNNN | [date] |
+| `[unit-test root]/[system]/[file]_test.[ext]` | `test_[scenario]` | AC-N / BUG-NNNN | [date] |
 
 ## Known Gaps
 
@@ -265,7 +274,7 @@ Tests that should exist but don't yet:
 
 | Priority | System | Suggested Path | Covers | Reason Not Yet Written |
 |----------|--------|----------------|--------|------------------------|
-| HIGH | [system] | `tests/unit/[system]/[path]` | BUG-NNNN | Bug fixed without test |
+| HIGH | [system] | `[unit-test root]/[system]/[path]` | BUG-NNNN | Bug fixed without test |
 
 ## Quarantined Tests
 

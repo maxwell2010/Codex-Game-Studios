@@ -323,7 +323,7 @@ If `docs/consistency-failures.md` does not exist, create it with this header bef
 ```markdown
 # Consistency Failure Log
 
-<!-- Auto-maintained by $consistency-check. Do not edit manually. -->
+<!-- Auto-maintained by /consistency-check. Do not edit manually. -->
 <!-- One entry per detected conflict, in chronological order. -->
 
 | Date | GDD A | GDD B | Conflict Type | Status |

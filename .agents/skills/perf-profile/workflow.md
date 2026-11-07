@@ -84,8 +84,8 @@ bash ".claude/skills/perf-profile/../../hooks/yaml-helper.sh" get_effective_yaml
 
 Run each line as its own plain command, one key per call: the helper moves to
 the project root itself, so it works when the session was started in a
-subfolder, and this skill pre-approves that form only (a `source` or `cd ... &&`
-wrapper asks the user every time). Empty output means that budget is not set.
+subfolder. Codex permissions still apply; no skill grants command permissions.
+Empty output means that budget is not set.
 
 > **Resolve these budgets from `project.yaml`, not from prose.** Phase 0 above
 > states these four budgets "are profiled the same way at every level". A user

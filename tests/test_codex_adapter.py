@@ -70,7 +70,30 @@ class AdapterTests(unittest.TestCase):
         self.assertIn('touch SHOULD_NOT_EXIST', build_codex.adapt('!`touch SHOULD_NOT_EXIST`', 'start'))
         self.assertFalse((ROOT / 'SHOULD_NOT_EXIST').exists())
         self.assertEqual(build_codex.adapt('.claude/skills/start/SKILL.md and /start'),
-                         '.claude/skills/start/SKILL.md and $start')
+                         '.agents/skills/start/workflow.md and $start')
+
+    def test_invocations_do_not_corrupt_filenames_or_skill_prefixes(self):
+        body = 'production/releases/[version]/changelog.md /story-done-more /start.sh /start /team-combat'
+        self.assertEqual(build_codex.adapt(body),
+            'production/releases/[version]/changelog.md /story-done-more /start.sh $start $team-combat')
+
+    def test_native_permission_and_argument_instructions(self):
+        workflow = (ROOT / '.agents/skills/dev-story/workflow.md').read_text(encoding='utf-8')
+        self.assertNotIn('This skill pre-approves', workflow)
+        self.assertNotIn('.claude/settings.local.json', workflow)
+        self.assertNotIn('$ARGUMENTS', build_codex.adapt('Read $ARGUMENTS'))
+
+    def test_patch_notes_changelog_path_is_usable(self):
+        body = (ROOT / '.agents/skills/patch-notes/workflow.md').read_text(encoding='utf-8')
+        self.assertIn('production/releases/[version]/changelog.md', body)
+        self.assertNotIn('[version]$changelog.md', body)
+
+    def test_explicit_only_invocation_policy_survives_conversion(self):
+        for source in (ROOT / '.claude/skills').glob('*/SKILL.md'):
+            meta, _ = build_codex.load(source)
+            if meta.get('disable-model-invocation'):
+                policy = yaml.safe_load((ROOT / '.agents/skills' / source.parent.name / 'agents/openai.yaml').read_text(encoding='utf-8'))
+                self.assertIs(policy['policy']['allow_implicit_invocation'], False)
 
     def test_linked_output_is_rejected_without_touching_target(self):
         with tempfile.TemporaryDirectory() as tmp:

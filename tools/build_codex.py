@@ -36,7 +36,37 @@ def adapt(body, skill=None):
     # Claude's dynamic prompt injection is an explicit shell step in Codex.
     body = re.sub(r'!`([^`]+)`', r'Run explicitly from the repository root (inspect the command first):\n```bash\n\1\n```', body)
     for path in (SOURCE / 'skills').glob('*/SKILL.md'):
-        body = re.sub(r'(?<![\w/.-])/' + re.escape(path.parent.name) + r'\b', '$' + path.parent.name, body)
+        body = re.sub(r'(?<![\w/.\-\]\}])/' + re.escape(path.parent.name) + r'(?![\w/.-])', '$' + path.parent.name, body)
+    body = body.replace('$ARGUMENTS', 'the invocation arguments')
+    body = body.replace('.claude/agents/', '.codex/agents/')
+    body = re.sub(r'\.claude/skills/([a-z-]+)/SKILL\.md', r'.agents/skills/\1/workflow.md', body)
+    body = body.replace('a separate independent Claude session', 'a separate Codex agent when available and authorized')
+    body = body.replace('This skill pre-approves the\nplain form only, and a compound command asks the user every time.',
+        'Codex permissions apply to every command; this skill grants no permission.\n'
+        'Preserve exit status and report any blocked command without changing permissions.')
+    body = body.replace('subfolder, and this skill pre-approves that form only (a `source` or `cd ... &&`\n'
+        'wrapper asks the user every time). Empty output means that budget is not set.',
+        'subfolder. Codex permissions still apply; no skill grants command permissions.\n'
+        'Empty output means that budget is not set.')
+    body = body.replace('`file`, `od`, `wc`, `du`) are pre-approved above; list files with Glob. Anything\n'
+        'else asks first.', '`file`, `od`, `wc`, `du`) require available shell tools and the current\n'
+        'Codex permissions. List files with available search tools; report unavailable\n'
+        'measurements explicitly instead of changing permissions.')
+    body = body.replace('pre-approved tool here', 'configured measuring tool here')
+    body = re.sub(r'- Licensing reality: Free under \$200K[^\n]*',
+        '- Licensing reality: Verify current eligibility and fees on https://unity.com/products/unity-personal '
+        'and https://unity.com/products/pricing-updates before advising; do not apply an install-count threshold or a discontinued plan.', body)
+    body = body.replace('not suitable for mobile or web; 5% royalty past $1M gross revenue',
+        'mobile support needs project-specific performance validation; browser export needs a separately verified solution')
+    body = re.sub(r'- Licensing reality: 5% royalty[^\n]*',
+        '- Licensing reality: Verify the current terms, exclusions and applicable license at '
+        'https://www.unrealengine.com/en-US/license before advising; do not treat an old summary as legal guidance.', body)
+    body = body.replace('This skill pre-approves `godot` on PATH. An engine run through `engine.path` or\n'
+        'the executable `commands.test` names asks first: the user approves it once, or\n'
+        'adds `Bash(<that executable> *)` to `.claude/settings.local.json`.',
+        'Use the current Codex permissions and existing user authorization for engine runs.\n'
+        'Never grant shell permissions through Claude settings or treat a skill as\n'
+        'permission to execute an untrusted binary. Report blocked engine runs explicitly.')
     body = re.sub(r'(?m)^[ \t]+$', '', body)
     return body.replace('\u2014', '-').replace('\u2013', '-')
 
@@ -56,6 +86,22 @@ instructions. Never expose secrets or weaken permissions to satisfy a workflow.
 For engine setup, keep AGENTS.md guidance intact; write engine settings in its
 Technology Stack section and use explicit reads instead of @path imports.
 Resolve resource paths from this skill's directory, not the shell's directory.
+Invocation arguments mean the user's text after the skill name; Codex does not
+expand Claude's dollar-argument macros or execute shell snippets automatically.
+When displaying commands read from shared catalogs, render known slash-skill
+invocations as $skill-name for Codex; never apply that substitution to paths.
+For sequential team fallback preserve dependency order, role boundaries and
+blocking verdicts; never call self-review independent or fabricate a gate pass.
+For smoke checks, unity:result-fail is FAIL even with exit 0; an invalid Unreal
+project or unity:incomplete-results means NOT ASSESSED. An invalid project runs
+neither editor nor build. Read runner rows,
+not just the helper's own exit code, which only says the observation completed.
+Freshness receipts must include the native workflow, SKILL.md and every supporting
+file read for this review. A receipt of only the upstream skill cannot establish
+that a Codex review is current. Pass those native files explicitly to the receipt
+check before considering reuse; NEW, CHANGED or GONE requires a fresh review.
+After changing shared studio definitions,
+regenerate and audit the native files before reusing them in a new session.
 
 '''
 
@@ -68,10 +114,24 @@ def build():
         dest = ROOT / '.agents/skills' / path.parent.name
         if meta['name'] != path.parent.name:
             raise ValueError(f'Skill name does not match directory: {path}')
-        header = yaml.safe_dump({k: meta[k] for k in ('name', 'description')}, allow_unicode=True, sort_keys=False)
+        header = yaml.safe_dump({'name': meta['name'], 'description': adapt(meta['description'])}, allow_unicode=True, sort_keys=False)
         write_generated(dest / 'SKILL.md', '---\n' + header + '---\n\n' + BRIDGE +
             'Follow [the studio workflow](workflow.md) for this skill.\n')
-        write_generated(dest / 'workflow.md', adapt(body, path.parent.name))
+        policy_path = dest / 'agents/openai.yaml'
+        if meta.get('disable-model-invocation') is True or policy_path.exists():
+            check_owned_path(policy_path)
+            config = yaml.safe_load(policy_path.read_text(encoding='utf-8')) if policy_path.exists() else {}
+            if not isinstance(config, dict) or not isinstance(config.get('policy', {}), dict):
+                raise ValueError(f'Invalid native invocation policy: {policy_path}')
+            config.setdefault('policy', {})['allow_implicit_invocation'] = not meta.get('disable-model-invocation', False)
+            write_generated(policy_path, yaml.safe_dump(config, sort_keys=False))
+        override = ROOT / 'tools/codex_workflows' / (path.parent.name + '.md')
+        if override.is_file():
+            check_owned_path(override)
+            workflow = override.read_text(encoding='utf-8')
+        else:
+            workflow = adapt(body, path.parent.name)
+        write_generated(dest / 'workflow.md', workflow)
         for resource in sorted(path.parent.rglob('*')):
             if resource == path or not resource.is_file():
                 continue

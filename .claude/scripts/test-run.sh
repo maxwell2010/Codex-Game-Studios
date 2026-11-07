@@ -78,7 +78,9 @@
 # Rule ids: timeout, runner-unavailable, godot:no-gdunit4, godot:0, godot:0-zero,
 # godot:101, godot:100, godot:105, godot:103, godot:104, godot:1, godot:1-no-import,
 # unity:no-test-framework, unity:0, unity:zero-tests, unity:no-count,
-# unity:no-results, unity:2, unity:1, unity:3, unity:4, unity:other,
+# unity:no-results, unity:result-fail, unity:incomplete-results,
+# unity:2, unity:1, unity:3, unity:4, unity:other,
+# unreal:invalid-project,
 # unreal:mac-unsourced, unreal:build-failed, unreal:result-fail,
 # unreal:no-tests-matched, unreal:pass, unreal:other-nonzero.
 #
@@ -241,8 +243,14 @@ case "$ENGINE" in
   unreal)
     if [ -n "$OS_ARG" ]; then OSN=$OS_ARG
     else case "$(uname -s)" in Linux) OSN=linux ;; Darwin) OSN=macos ;; *) OSN=windows ;; esac; fi
-    PROJ=""
-    for u in ./*.uproject; do [ -f "$u" ] && { PROJ=${u#./}; PROJ=${PROJ%.uproject}; break; }; done
+    PROJ=""; PROJ_COUNT=0; PROJ_VALID=1
+    for u in ./*.uproject; do
+      if [ -f "$u" ]; then
+        PROJ_COUNT=$((PROJ_COUNT + 1)); PROJ=${u#./}; PROJ=${PROJ%.uproject}
+      fi
+    done
+    [ "$PROJ_COUNT" = 1 ] || PROJ_VALID=0
+    case "$PROJ" in ''|*[!A-Za-z0-9_]*) PROJ_VALID=0 ;; esac
     [ -n "$FILTER" ] || FILTER="$PROJ"
     case "$OSN" in
       windows)
@@ -301,6 +309,10 @@ case "$ENGINE" in
       ran_no unity:no-test-framework "Unity Test Framework is not in Packages/manifest.json" "the Unity Test Framework is not installed; the editor would hang, so it was not started"
     fi ;;
   unreal)
+    if [ "$PROJ_VALID" != 1 ]; then
+      printf 'precheck\tunique safe .uproject\tabsent\n'
+      ran_no unreal:invalid-project "expected exactly one .uproject with an alphanumeric/underscore name" "project selection is missing, ambiguous or unsafe; no build or test ran"
+    fi
     if [ "$OSN" = macos ] && [ -z "$CMD_ARG" ] && [ -z "$CFG_TEST" ]; then
       printf 'precheck\tmacos test command\tabsent\n'
       ran_no unreal:mac-unsourced "no sourced Unreal test command on macOS and no commands.test" "no sourced Unreal test command on macOS: set commands.test"
@@ -392,7 +404,17 @@ case "$ENGINE" in
   unity)
     if [ -f "$RESULTS" ]; then
       printf 'results_file\t%s\tpresent\n' "$RESULTS"
-      run_el=$(grep -E -m 1 '<test-run' "$RESULTS" | tr -d '\r')
+      # NUnit attributes may span lines. Read the opening element, not only
+      # its first line, or a failed count on the next line silently disappears.
+      run_el=$(awk '{
+        line=$0
+        if (!found) {
+          pos=index(line, "<test-run"); if (!pos) next
+          line=substr(line,pos); found=1
+        }
+        element=element " " line
+        end=index(element, ">"); if (end) { print substr(element,1,end); exit }
+      }' "$RESULTS" | tr -d '\r')
       attr() { printf '%s\n' "$run_el" | sed -n "s/.*[ <]$1=\"\\([0-9]*\\)\".*/\\1/p" | head -1; }
       total=$(attr testcasecount); passed=$(attr passed); failed=$(attr failed)
       printf 'tests\ttotal=%s passed=%s failed=%s\n' "${total:--}" "${passed:--}" "${failed:--}"
@@ -404,8 +426,11 @@ case "$ENGINE" in
     fi
     case "$CODE" in
       0) if [ ! -f "$RESULTS" ]; then set_rule unity:no-results "exit 0 but no results file was written"
+         elif [ "${failed:-0}" -gt 0 ]; then set_rule unity:result-fail "the results file reports failed tests despite exit 0"
          elif [ -z "$total" ]; then set_rule unity:no-count "exit 0, but the results file has no <test-run> testcasecount, so no test was counted"
          elif [ "$total" = 0 ]; then set_rule unity:zero-tests "testcasecount is 0: no test was compiled or run"
+         elif [ -z "$passed" ] || [ -z "$failed" ] || [ "$passed" -ne "$total" ]; then
+           set_rule unity:incomplete-results "counts do not establish all tests passed; skipped or incomplete results need review"
          else set_rule unity:0 "exit 0: every test passed"; fi ;;
       2) set_rule unity:2 "a test failed" ;;
       1) set_rule unity:1 "the project did not compile (see the editor log for error CS lines)" ;;

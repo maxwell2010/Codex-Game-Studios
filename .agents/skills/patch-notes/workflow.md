@@ -72,14 +72,14 @@ If no version is provided, ask the user before proceeding.
 
 ## Phase 2: Gather Change Data
 
-- Read the internal changelog at `production/releases/[version]$changelog.md` if it exists
+- Read the internal changelog at `production/releases/[version]/changelog.md` if it exists
 - Also check `docs/CHANGELOG.md` for the relevant version entry
 - Run `git log` between the previous release tag and current tag/HEAD as a fallback
 - Read sprint retrospectives in `production/sprints/` for context
 - Read any balance change documents in `design/balance/`
 - Read bug fix records from QA if available
 
-**If no changelog data is available** (neither `production/releases/[version]$changelog.md`
+**If no changelog data is available** (neither `production/releases/[version]/changelog.md`
 nor a `docs/CHANGELOG.md` entry for this version exists, and git log is empty or unavailable):
 
 > "No changelog data found for [version]. Run `$changelog [version]` first to generate the
@@ -229,7 +229,7 @@ Check the generated notes for:
 Present the completed patch notes to the user along with: a count of changes by category, and any internal changes that were excluded (for review).
 
 Ask: "May I write these patch notes to `docs/patch-notes/[version].md`, and an
-archive copy to `production/releases/[version]$patch-notes.md`?"
+archive copy to `production/releases/[version]/patch-notes.md`?"
 
 If yes, write both files, creating the directories if needed.
 If no, write nothing.

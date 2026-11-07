@@ -90,7 +90,7 @@ If no argument is provided, ask the user for a bug description before proceeding
 The **Severity** and **Priority** labels use `$bug-triage`'s S and P numbers and
 names, which it parses out of this file. `P4-Won't fix` is its `P4 - Won't fix /
 Deferred` (an accepted risk), not a wishlist. If you change either ladder, change
-`.claude/skills/bug-triage/SKILL.md` too.
+`.agents/skills/bug-triage/workflow.md` too.
 
 ---
 

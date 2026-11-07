@@ -244,9 +244,9 @@ minimal`. Report exactly one line, plain text starting `Run result:` (no bold:
 Only the feel half of a Visual/Feel criterion (timing, weight) is DEFERRED to
 `$team-qa`: a still cannot show it.
 
-This skill pre-approves `godot` on PATH. An engine run through `engine.path` or
-the executable `commands.test` names asks first: the user approves it once, or
-adds `Bash(<that executable> *)` to `.claude/settings.local.json`.
+Use the current Codex permissions and existing user authorization for engine runs.
+Never grant shell permissions through Claude settings or treat a skill as
+permission to execute an untrusted binary. Report blocked engine runs explicitly.
 
 ## Phase 7: Summary, files, checkpoint
 
