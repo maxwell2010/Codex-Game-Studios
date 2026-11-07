@@ -21,6 +21,7 @@ def adapt(body, skill=None):
     body = re.sub(r'!`([^`]+)`', r'Run explicitly from the repository root (inspect the command first):\n```bash\n\1\n```', body)
     for path in (SOURCE / 'skills').glob('*/SKILL.md'):
         body = re.sub(r'(?<![\w/.-])/' + re.escape(path.parent.name) + r'\b', '$' + path.parent.name, body)
+    body = re.sub(r'(?m)^[ \t]+$', '', body)
     return body.replace('\u2014', '-').replace('\u2013', '-')
 
 BRIDGE = '''## Codex execution bridge
