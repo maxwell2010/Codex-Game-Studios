@@ -3,6 +3,8 @@
 # (stray \r corrupts commands and string comparisons). This applies to the
 # .claude/hooks/*.sh hooks and .claude/scripts/*.sh.
 *.sh text eol=lf
+.agents/** text eol=lf
+.codex/** text eol=lf
 
 # awk programs the helpers read with `awk -f` (yaml-get.awk). Git Bash gawk
 # tolerates CRLF; mawk and BWK awk may not, so they are checked out LF too.
