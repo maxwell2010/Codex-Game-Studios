@@ -3,6 +3,17 @@
 This repository adapts Donchitos/Claude-Code-Game-Studios for Codex.
 Read `docs/CODEX.md` for the runtime bridge and known limitations.
 
+## Technology Stack
+
+- Engine and version: read `engine` in `project.yaml`; unset in this template.
+- Language, rendering and physics: read the same block after `$setup-engine`.
+
+## Engine Version Reference
+
+Read `docs/engine-reference/<engine>/VERSION.md` explicitly after choosing an
+engine. Codex does not expand Claude's `@path` imports. Engine setup updates
+these sections and project.yaml without replacing the rest of this file.
+
 ## Work on a game
 
 - Read `project.yaml` and, if present, `production/session-state/active.md`.

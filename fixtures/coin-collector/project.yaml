@@ -1,0 +1,20 @@
+schema_version: 1
+framework:
+  version: 1.2.0
+project:
+  name: Coin Collector
+  stage: Concept
+modes:
+  rigor: minimal
+  automation: autonomous
+engine:
+  name: Godot
+  version: 4.5.1
+  language: GDScript
+  rendering: GL Compatibility
+  physics: Godot Physics
+specialists:
+  gameplay: godot-gdscript
+platform:
+  targets: [pc]
+  cert_tier: none

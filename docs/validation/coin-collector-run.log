@@ -1,0 +1,226 @@
+## engine-version
+exit=0
+4.5.1.stable.official.f62fdbde1
+
+## project-state
+exit=0
+root	<isolated-project>	-
+engine	Godot	project.yaml
+code_root	src	engine.name
+source_files	1	src
+concept	design/game-brief.md	found
+systems_index	-	absent
+gdd_files	0	design/gdd/*.md
+adr	0	docs/architecture/adr-*.md
+story	1	production/epics/**/story-*.md
+prototype	0	prototypes/*/
+sprint	0	production/sprints/*.md
+milestone	0	production/milestones/*.md
+origin_url	-	absent
+stage_yaml	Concept	project.yaml
+stage_txt	-	absent
+stage	Concept	project.yaml
+phase	concept	stage
+phase_inferred	pre-production	story>=1
+
+## config-set
+exit=0
+file	project.yaml	present
+enum	ok	minimal|standard|full
+whitelist	locked	yaml-helper.sh _yaml_helper_locally_overridable
+reserved	no	-
+known	yes	enum key
+shadow	no	-
+current	minimal	project.yaml
+edit	unchanged	8
+
+## config-set
+exit=0
+file	project.yaml	present
+enum	ok	minimal|standard|full
+whitelist	locked	yaml-helper.sh _yaml_helper_locally_overridable
+reserved	no	-
+known	yes	enum key
+shadow	no	-
+current	minimal	project.yaml
+edit	unchanged	8
+readback	minimal	project.yaml
+
+## config-set
+exit=0
+file	project.yaml	present
+enum	ok	collaborative|guided|autonomous
+whitelist	overridable	yaml-helper.sh _yaml_helper_locally_overridable
+reserved	no	-
+known	yes	enum key
+shadow	no	-
+current	autonomous	project.yaml
+edit	unchanged	9
+readback	autonomous	project.yaml
+
+## config-set
+exit=3
+file	project.yaml	present
+enum	invalid	minimal|standard|full
+whitelist	locked	yaml-helper.sh _yaml_helper_locally_overridable
+reserved	no	-
+known	yes	enum key
+config-set: Invalid value 'not-a-valid-rigor' for 'modes.rigor'. Allowed: minimal|standard|full
+
+## resolve-config
+exit=0
+=== CCGS Config (resolved: local->yaml->legacy->default; use as-is) ===
+automation: autonomous (project.yaml)
+workflow: minimal (rigor:minimal)
+qa.level: minimal (rigor:minimal)
+engine_values: name=Godot(project.yaml) version=4.5.1(project.yaml) language=GDScript(project.yaml)
+=== end ===
+
+## set-stage
+exit=0
+project.yaml	replaced	6
+stage.txt	written	-
+stage_yaml	Technical Setup	project.yaml
+stage_txt	Technical Setup	production/stage.txt
+
+## set-stage
+exit=0
+project.yaml	replaced	6
+stage.txt	written	-
+stage_yaml	Pre-Production	project.yaml
+stage_txt	Pre-Production	production/stage.txt
+
+## story-facts
+exit=0
+stories	1	paths
+complete	0
+in_review	0
+in_progress	0
+todo	1
+blocked	0
+other	0
+no_status	0
+STORY	production/epics/core/story-001-collect.md	TODO	Ready	Integration	Core	-	-	n/a	7	-	-	-	-
+
+## md-section
+exit=0
+file	production/epics/core/story-001-collect.md	set
+line	3	-
+
+## set-stage
+exit=0
+project.yaml	replaced	6
+stage.txt	written	-
+stage_yaml	Production	project.yaml
+stage_txt	Production	production/stage.txt
+
+## import
+exit=0
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Инициализация проекта (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Сканирование структуры файлов…[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Загрузка глобальных имен классов…[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Проверка GDExtensions…[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Создание скриптов автозагрузки…[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Инициализация плагинов…[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Начало сканирование файлов…[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Регистрация глобальных классов… (2 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Загрузка редактора (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Загрузка макета редактора…[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+
+## headless-qa
+exit=0
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+CHECK PASS starts at title
+CHECK PASS Enter starts game via actual input
+CHECK PASS held input moves player
+CHECK PASS arena bounds clamp movement
+CHECK PASS P pauses
+CHECK PASS paused game does not move
+CHECK PASS P resumes
+CHECK PASS collect all coins and win
+CHECK PASS R resets score and every coin
+CHECK PASS focus loss auto-pauses
+CYCLE_RESULT PASS failures=0
+
+## source-release-qa
+exit=0
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+CHECK PASS starts at title
+CHECK PASS Enter starts game via actual input
+CHECK PASS held input moves player
+CHECK PASS arena bounds clamp movement
+CHECK PASS P pauses
+CHECK PASS paused game does not move
+CHECK PASS P resumes
+CHECK PASS collect all coins and win
+CHECK PASS R resets score and every coin
+CHECK PASS focus loss auto-pauses
+CYCLE_RESULT PASS failures=0
+
+## rendered-qa
+exit=0
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 560.94 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce GTX 1070
+
+CHECK PASS starts at title
+CHECK PASS screenshot 01-title
+CHECK PASS Enter starts game via actual input
+CHECK PASS held input moves player
+CHECK PASS arena bounds clamp movement
+CHECK PASS P pauses
+CHECK PASS paused game does not move
+CHECK PASS screenshot 02-paused
+CHECK PASS P resumes
+CHECK PASS collect all coins and win
+CHECK PASS screenshot 03-won
+CHECK PASS R resets score and every coin
+CHECK PASS screenshot 04-restarted
+CHECK PASS focus loss auto-pauses
+CYCLE_RESULT PASS failures=0
+
+## md-section
+exit=0
+file	production/epics/core/story-001-collect.md	set
+line	3	-
+
+## set-stage
+exit=0
+project.yaml	replaced	6
+stage.txt	written	-
+stage_yaml	Polish	project.yaml
+stage_txt	Polish	production/stage.txt
+
+## set-stage
+exit=0
+project.yaml	replaced	6
+stage.txt	written	-
+stage_yaml	Release	project.yaml
+stage_txt	Release	production/stage.txt
+
+## session-state
+exit=0
+file	production/session-state/active.md	created
+lines	2	-
+
+## story-status
+exit=0
+COMPLETE     1 of 1
+
+## project-state
+exit=0
+stage_yaml	Release	project.yaml
+stage_txt	Release	production/stage.txt
+stage	Release	project.yaml
+phase	release	stage

@@ -45,9 +45,20 @@ injection syntax to explicit commands and converts known skill invocations.
 It does not translate arbitrary Claude APIs embedded in prose into runnable APIs.
 Read those as workflow intent through the capability mapping above.
 
+Each generated skill keeps `workflow.md` beside `SKILL.md`, with the original
+supporting `references/` tree alongside it. All supporting Markdown is adapted,
+not just the entrypoint. Relative resource paths are based on the skill folder.
+Python maintenance tools require 3.12 or newer. Generator inputs and outputs must
+be regular repository files, without symlinks or Windows junctions.
+
 Automated checks validate packaging, TOML, workflow coverage, referenced local
 paths and deterministic regeneration. They do not establish successful gameplay
 or full interactive execution of every workflow on every Codex client.
+
+One minimal Godot lifecycle now has actual engine, rendered-state and extracted
+source-package evidence: [validation report](validation/cycle-2026-11-07.md).
+See also the [security review](validation/security-2026-11-07.md). These results
+do not establish automatic skill discovery or all native roles on every client.
 
 Official references (consulted 2026-11-07):
 - [Skills](https://learn.chatgpt.com/docs/build-skills)

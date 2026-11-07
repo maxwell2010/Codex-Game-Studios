@@ -5,6 +5,10 @@
 *.sh text eol=lf
 .agents/** text eol=lf
 .codex/** text eol=lf
+fixtures/**/*.gd text eol=lf
+fixtures/**/*.tscn text eol=lf
+fixtures/**/*.godot text eol=lf
+fixtures/**/*.json text eol=lf
 
 # awk programs the helpers read with `awk -f` (yaml-get.awk). Git Bash gawk
 # tolerates CRLF; mawk and BWK awk may not, so they are checked out LF too.

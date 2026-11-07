@@ -34,13 +34,19 @@ Try `$brainstorm`, `$prototype`, `$dev-story`, `$code-review`, `$qa-plan` or `$t
 
 Read [the Codex bridge](docs/CODEX.md). Claude hooks, deny lists, status lines and model tiers are **not automatically active in Codex**. Rules need explicit reads; inherited tool names must be mapped to available tools. No global settings are changed.
 
-Tests cover packaging, TOML, workflow coverage, command paths and deterministic regeneration. The project-state helper was smoke-tested in Git Bash. Full interactive execution of all workflows and engine gameplay has not been validated. CI checks the adapter on Linux and Windows.
+Tests cover packaging, TOML, supporting resources, reference links, safe paths and deterministic regeneration. A small Godot game now exercises an isolated lifecycle through engine QA, rendered screenshots, story closure and a tested source distribution. CI runs the adapter and engine cycle on Linux and Windows. This validates one minimal workflow, not all workflows or engines.
+
+See the [lifecycle report](docs/validation/cycle-2026-11-07.md), [security review](docs/validation/security-2026-11-07.md), and [playable fixture](fixtures/coin-collector/README.md).
 
 ```sh
 python -m pip install -r tools/requirements.txt
 python tools/build_codex.py
 python -m unittest discover -s tests -v
 ```
+
+Maintenance tools require Python 3.12 or newer. Run `python tools/fetch_test_engine.py`
+to download the checksum-pinned test engine locally, then follow the report to
+run `tools/run_studio_cycle.py`. No engine is downloaded by ordinary skill use.
 
 ## По-русски
 
